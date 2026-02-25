@@ -143,6 +143,24 @@ const tiposAtivos = [
             "Exposição a fatores geopolíticos e climáticos",
             "Tracking error em ETFs vs commodity física"
         ]
+    },
+    {
+        nome: "Criptomoedas (Bitcoin, Ethereum, etc.)",
+        icon: "₿",
+        pros: [
+            "Potencial de retorno elevado em mercados em alta",
+            "Descentralização - não controlado por governos ou bancos",
+            "Liquidez 24/7 - mercado aberto todos os dias",
+            "Facilidade de transferência global sem intermediários",
+            "Proteção contra desvalorização monetária (supply limitado)"
+        ],
+        contras: [
+            "Volatilidade extrema - oscilações de 20-50% são comuns",
+            "Risco regulatório - legislação ainda em desenvolvimento",
+            "Risco de segurança - hacks, perda de chaves privadas",
+            "Não gera rendimento passivo (exceto staking)",
+            "Mercado especulativo com manipulação possível"
+        ]
     }
 ];
 
@@ -348,6 +366,33 @@ const indicadoresPorTipo = {
             nome: "Volume de Negociação",
             descricao: "Liquidez do ETF ou contrato futuro. Volumes elevados facilitam entrada/saída sem impacto no preço.",
             ideal: "> 500k/dia"
+        }
+    ],
+    criptomoedas: [
+        {
+            nome: "Market Cap (Capitalização)",
+            descricao: "Valor total de mercado da criptomoeda. Maior market cap geralmente indica menor risco relativo.",
+            ideal: "> $10B (Large Cap)"
+        },
+        {
+            nome: "Volume 24h / Market Cap",
+            descricao: "Rácio de liquidez. Valores entre 5-15% indicam boa liquidez sem manipulação excessiva.",
+            ideal: "5-15%"
+        },
+        {
+            nome: "Volatilidade (30 dias)",
+            descricao: "Desvio padrão dos retornos. Crypto é volátil por natureza, mas valores extremos aumentam risco.",
+            ideal: "30-60% (moderada para crypto)"
+        },
+        {
+            nome: "Distância do ATH (All-Time High)",
+            descricao: "Percentagem abaixo do máximo histórico. Valores <50% podem indicar oportunidade de entrada.",
+            ideal: "30-70% abaixo do ATH"
+        },
+        {
+            nome: "Rendimento Anual (CAGR 1 ano)",
+            descricao: "Taxa de crescimento anual composta. Mede performance recente, mas não garante futuro.",
+            ideal: "> 20% (positivo)"
         }
     ]
 };
@@ -587,5 +632,35 @@ const glossario = [
         termo: "Horizonte Temporal",
         definicao: "Quanto tempo planeia manter o investimento. Curto prazo (< 3 anos), médio prazo (3-10 anos), longo prazo (> 10 anos). Quanto maior o horizonte, mais risco pode assumir.",
         categoria: "Conceitos"
+    },
+    {
+        termo: "Bitcoin (BTC)",
+        definicao: "A primeira e maior criptomoeda por capitalização de mercado. Criada em 2009, funciona como 'ouro digital' com supply limitado a 21 milhões de unidades. Descentralizada e sem controlo governamental.",
+        categoria: "Ativos"
+    },
+    {
+        termo: "Ethereum (ETH)",
+        definicao: "Segunda maior criptomoeda. Além de moeda, é uma plataforma para contratos inteligentes e aplicações descentralizadas (DApps). Base para DeFi, NFTs e Web3.",
+        categoria: "Ativos"
+    },
+    {
+        termo: "Altcoins",
+        definicao: "Todas as criptomoedas que não são Bitcoin. Exemplos: Ethereum, Solana, Cardano. Geralmente mais voláteis que Bitcoin, com maior risco e potencial de retorno.",
+        categoria: "Ativos"
+    },
+    {
+        termo: "Staking",
+        definicao: "Bloquear criptomoedas numa rede blockchain para ajudar a validar transações e ganhar recompensas (como juros). Forma de gerar rendimento passivo com crypto.",
+        categoria: "Estratégias"
+    },
+    {
+        termo: "Wallet (Carteira Crypto)",
+        definicao: "Software ou hardware que guarda as suas chaves privadas para aceder às suas criptomoedas. 'Not your keys, not your coins' - se não controla as chaves, não controla os fundos.",
+        categoria: "Ferramentas"
+    },
+    {
+        termo: "Exchange (Corretora Crypto)",
+        definicao: "Plataforma para comprar, vender e trocar criptomoedas. Exemplos: Binance, Coinbase, Kraken. Atenção aos custos de transação e segurança.",
+        categoria: "Ferramentas"
     }
 ];

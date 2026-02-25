@@ -115,11 +115,15 @@
                             <option value="etf">ETF</option>
                             <option value="reit">REIT</option>
                             <option value="commodities">Commodities</option>
+                            <option value="criptomoedas">Criptomoedas</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Sigla do Ativo (ex: AAPL, SPY, GLD):</label>
-                        <input type="text" id="sigla-ativo" placeholder="Ex: AAPL, GLD (ouro), SLV (prata)">
+                        <label>Sigla do Ativo:</label>
+                        <input type="text" id="sigla-ativo" placeholder="Ex: AAPL, GLD, BTC, ETH">
+                        <small style="color: var(--text-light); display: block; margin-top: 0.25rem;">
+                            Ações/ETF: AAPL, SPY, VWCE.DE | Commodities: GLD, SLV | Crypto: BTC, ETH, SOL
+                        </small>
                     </div>
                     <button id="btn-simular" class="btn-primary">Avaliar</button>
                 </div>
@@ -319,6 +323,102 @@
         <section id="anuncios" class="section">
             <div class="container">
                 <h2>📢 Anúncios e Atualizações</h2>
+                
+                <!-- Configuração de Múltiplas API Keys -->
+                <div class="api-config-box" style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🔑 Configurar API Keys - Múltiplas Fontes de Dados</h3>
+                    <p style="margin-bottom: 1rem;">Configure múltiplas APIs gratuitas para obter o máximo de dados possível:</p>
+                    
+                    <!-- Alpha Vantage -->
+                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
+                        <h4 style="margin-bottom: 0.5rem;">
+                            <span style="color: var(--primary);">1. Alpha Vantage</span>
+                            <span id="status-alphavantage" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
+                        </h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
+                            <strong>Uso:</strong> Ações, ETFs, REITs, Commodities | <strong>Limite:</strong> 500/dia
+                        </p>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+                            <a href="https://www.alphavantage.co/support/#api-key" target="_blank" style="color: var(--primary);">Obter API Key →</a>
+                        </p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="api-key-alphavantage" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+                            <button onclick="salvarApiKey('alphavantage')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
+                        </div>
+                    </div>
+
+                    <!-- Financial Modeling Prep -->
+                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
+                        <h4 style="margin-bottom: 0.5rem;">
+                            <span style="color: var(--success);">2. Financial Modeling Prep</span>
+                            <span id="status-fmp" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
+                        </h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
+                            <strong>Uso:</strong> Notícias, Dividendos, Ratings, Balanços | <strong>Limite:</strong> 250/dia
+                        </p>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+                            <a href="https://site.financialmodelingprep.com/developer/docs" target="_blank" style="color: var(--primary);">Obter API Key →</a>
+                        </p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="api-key-fmp" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+                            <button onclick="salvarApiKey('fmp')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
+                        </div>
+                    </div>
+
+                    <!-- Twelve Data -->
+                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
+                        <h4 style="margin-bottom: 0.5rem;">
+                            <span style="color: var(--warning);">3. Twelve Data</span>
+                            <span id="status-twelvedata" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
+                        </h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
+                            <strong>Uso:</strong> Indicadores Técnicos (RSI, MACD) | <strong>Limite:</strong> 800/dia
+                        </p>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+                            <a href="https://twelvedata.com/pricing" target="_blank" style="color: var(--primary);">Obter API Key →</a>
+                        </p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="api-key-twelvedata" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+                            <button onclick="salvarApiKey('twelvedata')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
+                        </div>
+                    </div>
+
+                    <!-- Polygon -->
+                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
+                        <h4 style="margin-bottom: 0.5rem;">
+                            <span style="color: #9333ea;">4. Polygon</span>
+                            <span id="status-polygon" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
+                        </h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
+                            <strong>Uso:</strong> Splits de Ações, Dados Históricos | <strong>Limite:</strong> 5/min
+                        </p>
+                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+                            <a href="https://polygon.io/pricing" target="_blank" style="color: var(--primary);">Obter API Key →</a>
+                        </p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="api-key-polygon" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+                            <button onclick="salvarApiKey('polygon')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
+                        </div>
+                    </div>
+
+                    <!-- CoinGecko (sem key) -->
+                    <div class="api-config-item" style="padding: 1rem; background: #f0fdf4; border-radius: 6px; border: 1px solid var(--success);">
+                        <h4 style="margin-bottom: 0.5rem;">
+                            <span style="color: var(--success);">5. CoinGecko</span>
+                            <span style="font-size: 0.9rem; margin-left: 0.5rem; color: var(--success);">✅ Ativa (sem configuração)</span>
+                        </h4>
+                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0;">
+                            <strong>Uso:</strong> Criptomoedas (BTC, ETH, SOL, etc.) | <strong>Limite:</strong> 10-50/min | <strong>Sem API key necessária</strong>
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 1rem; padding: 1rem; background: #fef2f2; border-radius: 6px; border-left: 3px solid var(--danger);">
+                        <p style="font-size: 0.9rem; margin: 0;">
+                            <strong>💡 Dica:</strong> Configure todas as APIs para obter o máximo de dados possível. O sistema combina automaticamente informações de múltiplas fontes para preencher todos os campos.
+                        </p>
+                    </div>
+                </div>
+                
                 <div id="anuncios-container"></div>
             </div>
         </section>
@@ -331,6 +431,8 @@
     </footer>
 
     <script src="data.js"></script>
+    <script src="yahoo-finance.js"></script>
+    <script src="multi-api.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
