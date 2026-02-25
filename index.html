@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quero Investir e Agora? by Nuno Santos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">💰 Quero Investir e Agora?</h1>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#tipos-ativos" class="nav-link">Tipos de Ativos</a></li>
+                <li><a href="#perfil" class="nav-link">Perfil Investidor</a></li>
+                <li><a href="#indicadores" class="nav-link">Indicadores</a></li>
+                <li><a href="#avaliar-ativos" class="nav-link">Avaliar Ativos</a></li>
+                <li><a href="#simulacoes" class="nav-link">Simulações</a></li>
+                <li><a href="#glossario" class="nav-link">Glossário</a></li>
+                <li><a href="#corretoras" class="nav-link">Corretoras</a></li>
+                <li><a href="#anuncios" class="nav-link">Anúncios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container">
+                <div class="hero">
+                    <h2>Bem-vindo ao Quero Investir e Agora?</h2>
+                    <p>Sua ferramenta gratuita para avaliar ativos de investimento de forma inteligente</p>
+                    <div class="hero-cards">
+                        <div class="card" data-nav="tipos-ativos">
+                            <span class="icon">📊</span>
+                            <h3>Tipos de Ativos</h3>
+                            <p>Conheça os prós e contras de cada tipo de investimento</p>
+                        </div>
+                        <div class="card" data-nav="perfil">
+                            <span class="icon">👤</span>
+                            <h3>Perfil Investidor</h3>
+                            <p>Descubra seu perfil e receba recomendações personalizadas</p>
+                        </div>
+                        <div class="card" data-nav="indicadores">
+                            <span class="icon">📈</span>
+                            <h3>Indicadores</h3>
+                            <p>Conheça os principais indicadores para avaliar ativos</p>
+                        </div>
+                        <div class="card" data-nav="avaliar-ativos">
+                            <span class="icon">🔍</span>
+                            <h3>Avaliar Ativos</h3>
+                            <p>Avalie ativos específicos com base em indicadores-chave</p>
+                        </div>
+                        <div class="card" data-nav="simulacoes">
+                            <span class="icon">🧮</span>
+                            <h3>Simulações</h3>
+                            <p>Calcule juros compostos, rendimentos e regra dos 4%</p>
+                        </div>
+                        <div class="card" data-nav="glossario">
+                            <span class="icon">📚</span>
+                            <h3>Glossário</h3>
+                            <p>Definições simples dos principais termos financeiros</p>
+                        </div>
+                        <div class="card" data-nav="corretoras">
+                            <span class="icon">🏦</span>
+                            <h3>Corretoras</h3>
+                            <p>Compare as principais plataformas de investimento</p>
+                        </div>
+                        <div class="card" data-nav="anuncios">
+                            <span class="icon">📢</span>
+                            <h3>Anúncios</h3>
+                            <p>Novidades e atualizações da plataforma</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tipos de Ativos Section -->
+        <section id="tipos-ativos" class="section">
+            <div class="container">
+                <h2>Tipos de Ativos</h2>
+                <div id="ativos-container"></div>
+            </div>
+        </section>
+
+        <!-- Perfil Investidor Section -->
+        <section id="perfil" class="section">
+            <div class="container">
+                <h2>Descubra seu Perfil de Investidor</h2>
+                <div id="questionario-container"></div>
+                <div id="resultado-perfil" class="hidden"></div>
+            </div>
+        </section>
+
+        <!-- Indicadores Section -->
+        <section id="indicadores" class="section">
+            <div class="container">
+                <h2>Top 5 Indicadores por Tipo de Ativo</h2>
+                <div id="indicadores-container"></div>
+            </div>
+        </section>
+
+        <!-- Avaliar Ativos Section -->
+        <section id="avaliar-ativos" class="section">
+            <div class="container">
+                <h2>🔍 Avaliar Ativos</h2>
+                <div class="simulacao-form">
+                    <div class="form-group">
+                        <label>Tipo de Ativo:</label>
+                        <select id="tipo-ativo-sim">
+                            <option value="">Selecione...</option>
+                            <option value="acoes">Ações</option>
+                            <option value="etf">ETF</option>
+                            <option value="reit">REIT</option>
+                            <option value="commodities">Commodities</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sigla do Ativo (ex: AAPL, SPY, GLD):</label>
+                        <input type="text" id="sigla-ativo" placeholder="Ex: AAPL, GLD (ouro), SLV (prata)">
+                    </div>
+                    <button id="btn-simular" class="btn-primary">Avaliar</button>
+                </div>
+                <div id="resultado-simulacao" class="hidden"></div>
+            </div>
+        </section>
+
+        <!-- Simulações Section -->
+        <section id="simulacoes" class="section">
+            <div class="container">
+                <h2>🧮 Simulações Financeiras</h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem;">
+                    Ferramentas para calcular o crescimento dos seus investimentos e planear a sua independência financeira.
+                </p>
+                
+                <!-- Tabs de Simulação -->
+                <div class="simulacao-tabs">
+                    <button class="sim-tab active" data-sim="juros">Juros Compostos</button>
+                    <button class="sim-tab" data-sim="rendimento">Rendimento de Ativo</button>
+                    <button class="sim-tab" data-sim="regra4">Regra dos 4%</button>
+                </div>
+
+                <!-- Simulação 1: Juros Compostos -->
+                <div id="sim-juros" class="sim-content active">
+                    <div class="sim-explicacao">
+                        <h3>💡 Juro Simples vs Juro Composto</h3>
+                        <p><strong>Juro Simples:</strong> Calculado apenas sobre o capital inicial. Fórmula: M = C × (1 + i × t)</p>
+                        <p><strong>Juro Composto:</strong> Calculado sobre o capital + juros acumulados. Fórmula: M = C × (1 + i)^t</p>
+                        <p>O juro composto é o "efeito bola de neve" - os seus rendimentos geram mais rendimentos!</p>
+                    </div>
+                    
+                    <div class="simulacao-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Capital Inicial (€):</label>
+                                <input type="number" id="juros-capital" value="10000" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Taxa de Juro Anual (%):</label>
+                                <input type="number" id="juros-taxa" value="7" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Período (anos):</label>
+                                <input type="number" id="juros-periodo" value="10" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Contribuição Mensal (€):</label>
+                                <input type="number" id="juros-mensal" value="100" min="0">
+                            </div>
+                        </div>
+                        <button onclick="calcularJuros()" class="btn-primary">Calcular</button>
+                    </div>
+                    
+                    <div id="resultado-juros" class="hidden"></div>
+                </div>
+
+                <!-- Simulação 2: Rendimento de Ativo -->
+                <div id="sim-rendimento" class="sim-content">
+                    <div class="sim-explicacao">
+                        <h3>💡 Projeção de Rendimento</h3>
+                        <p><strong>Cálculo:</strong> Baseado no rendimento médio histórico dos últimos 10 anos + dividendos reinvestidos.</p>
+                        <p><strong>Fórmula:</strong> Valor Final = Investimento Mensal × [(1 + r)^n - 1] / r</p>
+                        <p>Onde r = taxa mensal e n = número de meses. Dividendos são adicionados anualmente.</p>
+                        <p style="margin-top: 1rem;"><strong>💡 Dica:</strong> Pode usar dados de um ativo real (ex: AAPL, SPY, VWCE.DE) ou inserir valores personalizados manualmente.</p>
+                    </div>
+                    
+                    <div class="sim-explicacao" style="background: #fef2f2; border-left-color: var(--danger);">
+                        <h3 style="color: var(--danger);">⚠️ Aviso Importante</h3>
+                        <p><strong>Rendimentos passados não são garantia de rendimentos futuros.</strong> Os valores históricos servem apenas como referência. 
+                        Os mercados são imprevisíveis e podem ter períodos de perdas significativas. Esta simulação é apenas uma estimativa educacional 
+                        e não deve ser usada como única base para decisões de investimento.</p>
+                    </div>
+                    
+                    <div class="simulacao-form">
+                        <div class="form-group" style="background: #eff6ff; padding: 1rem; border-radius: 6px; border-left: 4px solid var(--primary);">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 500;">
+                                <input type="checkbox" id="rend-usar-ticker" onchange="toggleTickerRendimento()" style="width: auto;">
+                                <span>🎯 Usar dados reais de um ativo específico (recomendado)</span>
+                            </label>
+                            <p style="margin: 0.5rem 0 0 1.75rem; font-size: 0.9rem; color: var(--text-light);">
+                                Marque esta opção para buscar automaticamente o rendimento histórico de ações, ETFs ou outros ativos
+                            </p>
+                        </div>
+                        
+                        <div id="rend-ticker-group" class="form-group hidden" style="background: #f0fdf4; padding: 1rem; border-radius: 6px; border: 2px solid var(--success);"></div>
+                            <label style="font-weight: 500; color: var(--success);">📊 Ticker do Ativo:</label>
+                            <p style="font-size: 0.9rem; color: var(--text-light); margin: 0.25rem 0 0.75rem 0;">
+                                Exemplos: AAPL (Apple), SPY (S&P 500), VWCE.DE (ETF Mundial), IWDA.AS (ETF Desenvolvidos)
+                            </p>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <input type="text" id="rend-ticker" placeholder="Ex: AAPL, SPY, VWCE.DE" style="flex: 1;">
+                                <button onclick="buscarDadosAtivo()" class="btn-primary">Buscar Dados</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Investimento Mensal (€):</label>
+                                <input type="number" id="rend-mensal" value="200" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Período (anos):</label>
+                                <input type="number" id="rend-periodo" value="20" min="1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Rendimento Médio Anual (%):</label>
+                                <input type="number" id="rend-taxa" value="8" min="0" step="0.1">
+                                <small style="color: var(--text-light);">Preenchido automaticamente se usar ticker</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Dividend Yield Anual (%):</label>
+                                <input type="number" id="rend-dividendos" value="2" min="0" step="0.1">
+                                <small style="color: var(--text-light);">Preenchido automaticamente se usar ticker</small>
+                            </div>
+                        </div>
+                        <button onclick="calcularRendimento()" class="btn-primary">Calcular Projeção</button>
+                    </div>
+                    
+                    <div id="resultado-rendimento" class="hidden"></div>
+                </div>
+
+                <!-- Simulação 3: Regra dos 4% -->
+                <div id="sim-regra4" class="sim-content">
+                    <div class="sim-explicacao">
+                        <h3>💡 Regra dos 4% (FIRE Movement)</h3>
+                        <p><strong>Conceito:</strong> Pode levantar 4% do seu capital anualmente sem esgotar o património (baseado em estudos históricos).</p>
+                        <p><strong>Fórmula:</strong> Capital Necessário = Despesa Anual Desejada / 0.04</p>
+                        <p><strong>Exemplo:</strong> Para €2.000/mês (€24.000/ano), precisa de €600.000 investidos.</p>
+                        <p>Assume carteira diversificada (60% ações, 40% obrigações) e ajuste anual pela inflação.</p>
+                    </div>
+                    
+                    <div class="simulacao-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Idade Atual:</label>
+                                <input type="number" id="regra4-idade-atual" value="30" min="18" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Idade para Começar a Usar Rendimento:</label>
+                                <input type="number" id="regra4-idade-objetivo" value="55" min="18" max="100">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Renda Mensal Desejada (€):</label>
+                                <input type="number" id="regra4-mensal" value="2000" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Capital Já Acumulado (€):</label>
+                                <input type="number" id="regra4-capital-atual" value="0" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Inflação Anual Estimada (%):</label>
+                            <input type="number" id="regra4-inflacao" value="2" min="0" step="0.1">
+                        </div>
+                        <button onclick="calcularRegra4()" class="btn-primary">Calcular</button>
+                    </div>
+                    
+                    <div id="resultado-regra4" class="hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Glossário Section -->
+        <section id="glossario" class="section">
+            <div class="container">
+                <h2>📚 Glossário Financeiro</h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem;">
+                    Definições simples e práticas dos principais termos do mundo dos investimentos.
+                </p>
+                
+                <div class="glossario-search">
+                    <input type="text" id="glossario-busca" placeholder="🔍 Procurar termo..." onkeyup="filtrarGlossario()">
+                </div>
+                
+                <div id="glossario-container"></div>
+            </div>
+        </section>
+
+        <!-- Corretoras Section -->
+        <section id="corretoras" class="section">
+            <div class="container">
+                <h2>🏦 Principais Corretoras</h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem;">
+                    Comparação das principais plataformas de investimento disponíveis. Avalie custos, funcionalidades e escolha a melhor para o seu perfil.
+                </p>
+                <div id="corretoras-container"></div>
+            </div>
+        </section>
+
+        <!-- Anúncios Section -->
+        <section id="anuncios" class="section">
+            <div class="container">
+                <h2>📢 Anúncios e Atualizações</h2>
+                <div id="anuncios-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Quero Investir e Agora? by Nuno Santos - Ferramenta educacional gratuita. Não constitui aconselhamento financeiro.</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

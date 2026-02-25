@@ -1,0 +1,849 @@
+// Navegação
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        navegarPara(targetId);
+    });
+});
+
+// Navegação dos cards da home
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.hero-cards .card').forEach(card => {
+        card.addEventListener('click', () => {
+            const targetSection = card.dataset.nav;
+            if (targetSection) {
+                navegarPara(targetSection);
+            }
+        });
+    });
+});
+
+function navegarPara(targetId) {
+    // Atualizar links ativos
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    document.querySelector(`a[href="#${targetId}"]`)?.classList.add('active');
+    
+    // Mostrar seção correspondente
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById(targetId)?.classList.add('active');
+    
+    // Scroll para o topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Renderizar tipos de ativos
+function renderizarAtivos() {
+    const container = document.getElementById('ativos-container');
+    container.innerHTML = tiposAtivos.map(ativo => `
+        <div class="ativo-card">
+            <h3><span>${ativo.icon}</span> ${ativo.nome}</h3>
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Vantagens</h4>
+                    <ul>
+                        ${ativo.pros.map(pro => `<li>${pro}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="contras">
+                    <h4>Desvantagens</h4>
+                    <ul>
+                        ${ativo.contras.map(contra => `<li>${contra}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Renderizar questionário
+let respostasUsuario = [];
+
+function renderizarQuestionario() {
+    const container = document.getElementById('questionario-container');
+    container.innerHTML = questionario.map((questao, index) => `
+        <div class="questao">
+            <h4>${index + 1}. ${questao.pergunta}</h4>
+            <div class="opcoes" data-questao="${index}">
+                ${questao.opcoes.map((opcao, opcaoIndex) => `
+                    <div class="opcao" data-pontos="${opcao.pontos}" data-opcao="${opcaoIndex}">
+                        ${opcao.texto}
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+    
+    // Adicionar botão de calcular
+    container.innerHTML += '<button id="btn-calcular-perfil" class="btn-primary" style="margin-top: 1rem;">Calcular Perfil</button>';
+    
+    // Event listeners para opções
+    document.querySelectorAll('.opcao').forEach(opcao => {
+        opcao.addEventListener('click', function() {
+            const questaoIndex = this.parentElement.dataset.questao;
+            const pontos = parseInt(this.dataset.pontos);
+            
+            // Remover seleção anterior
+            this.parentElement.querySelectorAll('.opcao').forEach(o => o.classList.remove('selected'));
+            
+            // Adicionar seleção atual
+            this.classList.add('selected');
+            
+            // Guardar resposta
+            respostasUsuario[questaoIndex] = pontos;
+        });
+    });
+    
+    // Event listener para calcular perfil
+    document.getElementById('btn-calcular-perfil').addEventListener('click', calcularPerfil);
+}
+
+function calcularPerfil() {
+    if (respostasUsuario.length < questionario.length) {
+        alert('Por favor, responda a todas as questões.');
+        return;
+    }
+    
+    const totalPontos = respostasUsuario.reduce((sum, pontos) => sum + pontos, 0);
+    const maxPontos = questionario.length * 5;
+    const percentagem = (totalPontos / maxPontos) * 100;
+    
+    let perfilTipo;
+    if (percentagem <= 40) {
+        perfilTipo = 'conservador';
+    } else if (percentagem <= 70) {
+        perfilTipo = 'moderado';
+    } else {
+        perfilTipo = 'arrojado';
+    }
+    
+    const perfil = perfis[perfilTipo];
+    mostrarResultadoPerfil(perfil);
+}
+
+function mostrarResultadoPerfil(perfil) {
+    const container = document.getElementById('resultado-perfil');
+    container.innerHTML = `
+        <div class="perfil-resultado">
+            <h3>Seu Perfil de Investidor</h3>
+            <span class="perfil-badge ${perfil.classe}">${perfil.nome}</span>
+            <p>${perfil.descricao}</p>
+            
+            <div class="alocacao">
+                <h4>Alocação Recomendada:</h4>
+                ${perfil.alocacao.map(item => `
+                    <div class="alocacao-item">
+                        <div>
+                            <strong>${item.tipo}</strong>
+                            <div class="alocacao-bar" style="width: ${item.percentagem}%"></div>
+                        </div>
+                        <span>${item.percentagem}%</span>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <button class="btn-secondary" onclick="reiniciarQuestionario()">Refazer Teste</button>
+        </div>
+    `;
+    container.classList.remove('hidden');
+    container.scrollIntoView({ behavior: 'smooth' });
+}
+
+function reiniciarQuestionario() {
+    respostasUsuario = [];
+    document.getElementById('resultado-perfil').classList.add('hidden');
+    document.querySelectorAll('.opcao').forEach(o => o.classList.remove('selected'));
+}
+
+// Renderizar indicadores
+function renderizarIndicadores() {
+    const container = document.getElementById('indicadores-container');
+    const tipos = [
+        { key: 'acoes', nome: 'Ações', icon: '📈' },
+        { key: 'etf', nome: 'ETF', icon: '📊' },
+        { key: 'reit', nome: 'REIT', icon: '🏢' },
+        { key: 'commodities', nome: 'Commodities', icon: '🥇' }
+    ];
+    
+    container.innerHTML = tipos.map(tipo => `
+        <div class="indicador-tipo">
+            <h3><span>${tipo.icon}</span> ${tipo.nome}</h3>
+            <div class="indicador-lista">
+                ${indicadoresPorTipo[tipo.key].map((ind, index) => `
+                    <div class="indicador-item">
+                        <strong>${index + 1}. ${ind.nome}</strong>
+                        <p>${ind.descricao}</p>
+                        <p><em>Valor ideal: ${ind.ideal}</em></p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Simulação
+document.getElementById('btn-simular').addEventListener('click', simularInvestimento);
+
+function simularInvestimento() {
+    const tipoAtivo = document.getElementById('tipo-ativo-sim').value;
+    const sigla = document.getElementById('sigla-ativo').value.toUpperCase();
+    
+    if (!tipoAtivo || !sigla) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+    }
+    
+    // Simular dados (em produção, buscar de API real)
+    const dadosSimulados = gerarDadosSimulados(tipoAtivo, sigla);
+    mostrarResultadoSimulacao(dadosSimulados, tipoAtivo, sigla);
+}
+
+function gerarDadosSimulados(tipo, sigla) {
+    // Gerar dados aleatórios para demonstração
+    const dados = {};
+    const indicadores = indicadoresPorTipo[tipo];
+    
+    indicadores.forEach(ind => {
+        let valor;
+        switch(ind.nome) {
+            case 'P/E Ratio (Price to Earnings)':
+                valor = (Math.random() * 30 + 5).toFixed(2);
+                break;
+            case 'ROE (Return on Equity)':
+                valor = (Math.random() * 30 + 5).toFixed(2) + '%';
+                break;
+            case 'Dividend Yield':
+                valor = (Math.random() * 6 + 1).toFixed(2) + '%';
+                break;
+            case 'Debt to Equity':
+                valor = (Math.random() * 2).toFixed(2);
+                break;
+            case 'EPS Growth':
+                valor = (Math.random() * 20 + 5).toFixed(2) + '%';
+                break;
+            case 'Expense Ratio':
+                valor = (Math.random() * 1).toFixed(3) + '%';
+                break;
+            case 'Tracking Error':
+                valor = (Math.random() * 2).toFixed(2) + '%';
+                break;
+            case 'Volume de Negociação':
+                valor = Math.floor(Math.random() * 1000000 + 50000).toLocaleString();
+                break;
+            case 'AUM (Assets Under Management)':
+                valor = '$' + Math.floor(Math.random() * 5000 + 100) + 'M';
+                break;
+            case 'FFO (Funds From Operations)':
+                valor = '$' + (Math.random() * 3 + 1.5).toFixed(2) + '/ação';
+                break;
+            case 'Occupancy Rate':
+                valor = (Math.random() * 10 + 85).toFixed(1) + '%';
+                break;
+            case 'Price to FFO':
+                valor = (Math.random() * 10 + 8).toFixed(2);
+                break;
+            case 'Tendência de Preço (Score)':
+                valor = Math.floor(Math.random() * 40 + 40); // Score entre 40-80
+                break;
+            case 'Rácio Oferta/Procura':
+                valor = (Math.random() * 0.5 + 0.85).toFixed(2); // Valores entre 0.85-1.35
+                break;
+            case 'Correlação com Inflação':
+                valor = (Math.random() * 0.4 + 0.6).toFixed(2);
+                break;
+            case 'Volatilidade (30 dias)':
+                valor = (Math.random() * 20 + 10).toFixed(1) + '%';
+                break;
+            case 'Volume de Negociação':
+                valor = Math.floor(Math.random() * 2000000 + 300000).toLocaleString();
+                break;
+            default:
+                valor = (Math.random() * 100).toFixed(2);
+        }
+        dados[ind.nome] = valor;
+    });
+    
+    return dados;
+}
+
+function mostrarResultadoSimulacao(dados, tipo, sigla) {
+    // Calcular score (simplificado para demonstração)
+    const score = Math.floor(Math.random() * 30 + 60);
+    
+    const container = document.getElementById('resultado-simulacao');
+    const indicadores = indicadoresPorTipo[tipo];
+    
+    container.innerHTML = `
+        <div class="resultado-simulacao">
+            <h3>Resultado da Simulação: ${sigla}</h3>
+            
+            <div class="score-container">
+                <div class="score-value">${score}</div>
+                <div class="score-label">Score de Propensão</div>
+                <p style="margin-top: 1rem; color: var(--text-light);">
+                    ${score >= 80 ? 'Excelente oportunidade' : 
+                      score >= 60 ? 'Boa oportunidade' : 
+                      'Requer análise adicional'}
+                </p>
+            </div>
+            
+            <h4>Análise de Indicadores:</h4>
+            <div class="indicadores-comparacao">
+                ${indicadores.map(ind => `
+                    <div class="indicador-comparacao-card">
+                        <div class="indicador-header">
+                            <strong>${ind.nome}</strong>
+                            <p class="indicador-descricao">${ind.descricao}</p>
+                        </div>
+                        <div class="indicador-valores">
+                            <div class="valor-item">
+                                <span class="valor-label">Valor Atual</span>
+                                <span class="valor-atual">${dados[ind.nome]}</span>
+                            </div>
+                            <div class="valor-separador">vs</div>
+                            <div class="valor-item">
+                                <span class="valor-label">Valor Ideal</span>
+                                <span class="valor-ideal">${ind.ideal}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <button class="btn-primary" onclick="exportarResultado('${sigla}', ${score})">
+                    📥 Exportar Resultado
+                </button>
+                <button class="btn-secondary" onclick="novaSimulacao()">
+                    Nova Simulação
+                </button>
+            </div>
+        </div>
+    `;
+    
+    container.classList.remove('hidden');
+    container.scrollIntoView({ behavior: 'smooth' });
+}
+
+function exportarResultado(sigla, score) {
+    const resultado = document.getElementById('resultado-simulacao').innerText;
+    const blob = new Blob([resultado], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `investsmart_${sigla}_${new Date().toISOString().split('T')[0]}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function novaSimulacao() {
+    document.getElementById('tipo-ativo-sim').value = '';
+    document.getElementById('sigla-ativo').value = '';
+    document.getElementById('resultado-simulacao').classList.add('hidden');
+}
+
+// Inicializar aplicação
+document.addEventListener('DOMContentLoaded', () => {
+    renderizarAtivos();
+    renderizarQuestionario();
+    renderizarIndicadores();
+    renderizarCorretoras();
+    renderizarGlossario();
+    renderizarAnuncios();
+});
+
+
+// Renderizar anúncios
+function renderizarAnuncios() {
+    const container = document.getElementById('anuncios-container');
+    
+    if (anuncios.length === 0) {
+        container.innerHTML = `
+            <div class="anuncio-vazio">
+                <span class="icon">📭</span>
+                <p>Não há anúncios no momento.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = anuncios.map(anuncio => `
+        <div class="anuncio-card">
+            <span class="anuncio-tipo ${anuncio.tipo}">${
+                anuncio.tipo === 'importante' ? '⚠️ Importante' :
+                anuncio.tipo === 'aviso' ? '⚡ Aviso' :
+                'ℹ️ Informação'
+            }</span>
+            <div class="anuncio-header">
+                <h3 class="anuncio-titulo">${anuncio.titulo}</h3>
+                <span class="anuncio-data">${formatarData(anuncio.data)}</span>
+            </div>
+            <div class="anuncio-conteudo">
+                <p>${anuncio.conteudo}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function formatarData(dataStr) {
+    const data = new Date(dataStr);
+    return data.toLocaleDateString('pt-PT', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+}
+
+
+// Renderizar corretoras
+function renderizarCorretoras() {
+    const container = document.getElementById('corretoras-container');
+    
+    container.innerHTML = corretoras.map(corretora => `
+        <div class="corretora-card">
+            <div class="corretora-header">
+                <h3 class="corretora-nome">${corretora.nome}</h3>
+                <div class="corretora-badges">
+                    <div class="corretora-avaliacao">
+                        <span class="estrelas">⭐</span>
+                        <span>${corretora.avaliacao.toFixed(1)}/5</span>
+                    </div>
+                    ${corretora.temApp ? '<span class="corretora-app">📱 App Móvel</span>' : ''}
+                </div>
+            </div>
+            
+            <div class="corretora-pontos">
+                <div class="ponto-positivo">
+                    <strong>✓ Ponto Positivo</strong>
+                    <p>${corretora.pontoPositivo}</p>
+                </div>
+                <div class="ponto-negativo">
+                    <strong>✗ Ponto Negativo</strong>
+                    <p>${corretora.pontoNegativo}</p>
+                </div>
+            </div>
+            
+            <a href="${corretora.link}" target="_blank" rel="noopener noreferrer" class="corretora-link">
+                Visitar Website →
+            </a>
+        </div>
+    `).join('');
+}
+
+
+// Tabs de Simulação
+document.querySelectorAll('.sim-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        const simType = this.dataset.sim;
+        
+        // Atualizar tabs
+        document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Mostrar conteúdo correspondente
+        document.querySelectorAll('.sim-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(`sim-${simType}`).classList.add('active');
+    });
+});
+
+// Simulação 1: Juros Compostos
+function calcularJuros() {
+    const capital = parseFloat(document.getElementById('juros-capital').value);
+    const taxa = parseFloat(document.getElementById('juros-taxa').value) / 100;
+    const periodo = parseInt(document.getElementById('juros-periodo').value);
+    const mensal = parseFloat(document.getElementById('juros-mensal').value);
+    
+    // Juro Simples
+    const montanteSimples = capital * (1 + taxa * periodo) + (mensal * 12 * periodo);
+    const jurosSimples = montanteSimples - capital - (mensal * 12 * periodo);
+    
+    // Juro Composto (com contribuições mensais)
+    const taxaMensal = Math.pow(1 + taxa, 1/12) - 1;
+    const meses = periodo * 12;
+    let montanteComposto = capital * Math.pow(1 + taxa, periodo);
+    
+    // Adicionar contribuições mensais com juro composto
+    if (mensal > 0) {
+        const fvContribuicoes = mensal * ((Math.pow(1 + taxaMensal, meses) - 1) / taxaMensal);
+        montanteComposto += fvContribuicoes;
+    }
+    
+    const totalInvestido = capital + (mensal * 12 * periodo);
+    const jurosCompostos = montanteComposto - totalInvestido;
+    const diferenca = montanteComposto - montanteSimples;
+    
+    const container = document.getElementById('resultado-juros');
+    container.innerHTML = `
+        <div class="resultado-comparacao">
+            <div class="resultado-box">
+                <h4>Juro Simples</h4>
+                <div class="resultado-valor">€${montanteSimples.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</div>
+                <p style="color: var(--text-light);">Juros: €${jurosSimples.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</p>
+            </div>
+            <div class="resultado-box resultado-destaque">
+                <h4>Juro Composto</h4>
+                <div class="resultado-valor">€${montanteComposto.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</div>
+                <p style="color: rgba(255,255,255,0.9);">Juros: €${jurosCompostos.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</p>
+            </div>
+        </div>
+        
+        <div class="resultado-info">
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Total Investido</span>
+                <span class="resultado-info-valor">€${totalInvestido.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Diferença (Composto vs Simples)</span>
+                <span class="resultado-info-valor" style="color: var(--success);">+€${diferenca.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Retorno Total</span>
+                <span class="resultado-info-valor">${((montanteComposto / totalInvestido - 1) * 100).toFixed(2)}%</span>
+            </div>
+        </div>
+    `;
+    container.classList.remove('hidden');
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Simulação 2: Rendimento de Ativo
+function toggleTickerRendimento() {
+    const checkbox = document.getElementById('rend-usar-ticker');
+    const tickerGroup = document.getElementById('rend-ticker-group');
+    const taxaInput = document.getElementById('rend-taxa');
+    const dividendosInput = document.getElementById('rend-dividendos');
+    
+    if (checkbox.checked) {
+        tickerGroup.classList.remove('hidden');
+        taxaInput.disabled = true;
+        dividendosInput.disabled = true;
+        taxaInput.style.backgroundColor = '#f1f5f9';
+        dividendosInput.style.backgroundColor = '#f1f5f9';
+        taxaInput.style.cursor = 'not-allowed';
+        dividendosInput.style.cursor = 'not-allowed';
+    } else {
+        tickerGroup.classList.add('hidden');
+        taxaInput.disabled = false;
+        dividendosInput.disabled = false;
+        taxaInput.style.backgroundColor = '';
+        dividendosInput.style.backgroundColor = '';
+        taxaInput.style.cursor = '';
+        dividendosInput.style.cursor = '';
+        document.getElementById('rend-ticker').value = '';
+        
+        // Remover mensagem se existir
+        const tickerMsg = tickerGroup.querySelector('.ticker-msg');
+        if (tickerMsg) tickerMsg.remove();
+    }
+}
+
+function buscarDadosAtivo() {
+    const ticker = document.getElementById('rend-ticker').value.toUpperCase().trim();
+    
+    if (!ticker) {
+        alert('Por favor, insira um ticker válido.');
+        return;
+    }
+    
+    // Simular busca de dados (em produção, usar API real)
+    // Dados simulados baseados em médias históricas conhecidas
+    const dadosSimulados = {
+        'AAPL': { rendimento: 24.5, dividendos: 0.5 },
+        'MSFT': { rendimento: 22.8, dividendos: 0.8 },
+        'SPY': { rendimento: 10.5, dividendos: 1.5 },
+        'VOO': { rendimento: 10.3, dividendos: 1.4 },
+        'VTI': { rendimento: 10.8, dividendos: 1.6 },
+        'VWCE.DE': { rendimento: 9.2, dividendos: 1.8 },
+        'IWDA.AS': { rendimento: 9.5, dividendos: 1.7 },
+        'GLD': { rendimento: 7.2, dividendos: 0 },
+        'SLV': { rendimento: 5.8, dividendos: 0 },
+        'VNQ': { rendimento: 9.8, dividendos: 3.5 },
+        'GOOGL': { rendimento: 20.5, dividendos: 0 },
+        'AMZN': { rendimento: 25.3, dividendos: 0 },
+        'TSLA': { rendimento: 35.2, dividendos: 0 },
+        'KO': { rendimento: 8.5, dividendos: 3.0 },
+        'JNJ': { rendimento: 9.2, dividendos: 2.6 }
+    };
+    
+    const dados = dadosSimulados[ticker];
+    
+    if (dados) {
+        document.getElementById('rend-taxa').value = dados.rendimento.toFixed(1);
+        document.getElementById('rend-dividendos').value = dados.dividendos.toFixed(1);
+        
+        // Mostrar mensagem de sucesso
+        const tickerGroup = document.getElementById('rend-ticker-group');
+        const existingMsg = tickerGroup.querySelector('.ticker-msg');
+        if (existingMsg) existingMsg.remove();
+        
+        const msg = document.createElement('p');
+        msg.className = 'ticker-msg';
+        msg.style.color = 'var(--success)';
+        msg.style.marginTop = '0.5rem';
+        msg.style.fontSize = '0.9rem';
+        msg.innerHTML = `✓ Dados carregados: ${ticker} - Rendimento médio ${dados.rendimento}% | Dividendos ${dados.dividendos}%`;
+        tickerGroup.appendChild(msg);
+    } else {
+        // Gerar dados aleatórios para demonstração
+        const rendimentoAleatorio = (Math.random() * 15 + 5).toFixed(1);
+        const dividendosAleatorio = (Math.random() * 3).toFixed(1);
+        
+        document.getElementById('rend-taxa').value = rendimentoAleatorio;
+        document.getElementById('rend-dividendos').value = dividendosAleatorio;
+        
+        const tickerGroup = document.getElementById('rend-ticker-group');
+        const existingMsg = tickerGroup.querySelector('.ticker-msg');
+        if (existingMsg) existingMsg.remove();
+        
+        const msg = document.createElement('p');
+        msg.className = 'ticker-msg';
+        msg.style.color = 'var(--warning)';
+        msg.style.marginTop = '0.5rem';
+        msg.style.fontSize = '0.9rem';
+        msg.innerHTML = `⚠️ Ticker não encontrado. Usando dados estimados: Rendimento ${rendimentoAleatorio}% | Dividendos ${dividendosAleatorio}%`;
+        tickerGroup.appendChild(msg);
+    }
+}
+
+function calcularRendimento() {
+    const mensal = parseFloat(document.getElementById('rend-mensal').value);
+    const periodo = parseInt(document.getElementById('rend-periodo').value);
+    const taxaAnual = parseFloat(document.getElementById('rend-taxa').value) / 100;
+    const dividendos = parseFloat(document.getElementById('rend-dividendos').value) / 100;
+    const ticker = document.getElementById('rend-ticker').value.toUpperCase().trim();
+    const usandoTicker = document.getElementById('rend-usar-ticker').checked;
+    
+    const taxaMensal = Math.pow(1 + taxaAnual, 1/12) - 1;
+    const meses = periodo * 12;
+    const totalInvestido = mensal * meses;
+    
+    // Valor futuro das contribuições mensais
+    let valorFinal = mensal * ((Math.pow(1 + taxaMensal, meses) - 1) / taxaMensal);
+    
+    // Adicionar dividendos reinvestidos (simplificado - anualmente)
+    const dividendosTotal = valorFinal * dividendos * periodo * 0.5; // 0.5 é fator médio
+    valorFinal += dividendosTotal;
+    
+    const ganhos = valorFinal - totalInvestido;
+    const retornoPercentual = (ganhos / totalInvestido) * 100;
+    
+    const tituloTicker = usandoTicker && ticker ? ` - ${ticker}` : '';
+    
+    const container = document.getElementById('resultado-rendimento');
+    container.innerHTML = `
+        <div class="resultado-box resultado-destaque" style="max-width: 600px; margin: 0 auto;">
+            <h4>Valor Final Estimado${tituloTicker}</h4>
+            <div class="resultado-valor">€${valorFinal.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</div>
+            <p style="color: rgba(255,255,255,0.9);">Após ${periodo} anos de investimento</p>
+        </div>
+        
+        <div class="resultado-info">
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Total Investido</span>
+                <span class="resultado-info-valor">€${totalInvestido.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Ganhos de Capital</span>
+                <span class="resultado-info-valor" style="color: var(--success);">€${ganhos.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Dividendos Acumulados (estimativa)</span>
+                <span class="resultado-info-valor">€${dividendosTotal.toLocaleString('pt-PT', {maximumFractionDigits: 2})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Retorno Total</span>
+                <span class="resultado-info-valor">${retornoPercentual.toFixed(2)}%</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Retorno Anualizado</span>
+                <span class="resultado-info-valor">${((Math.pow(valorFinal / totalInvestido, 1/periodo) - 1) * 100).toFixed(2)}%</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Rendimento Médio Usado</span>
+                <span class="resultado-info-valor">${(taxaAnual * 100).toFixed(1)}% + ${(dividendos * 100).toFixed(1)}% dividendos</span>
+            </div>
+        </div>
+        
+        <div class="sim-explicacao" style="margin-top: 1.5rem; background: #fef2f2; border-left-color: var(--danger);">
+            <p style="color: var(--danger);"><strong>⚠️ Lembre-se:</strong> Rendimentos passados não garantem rendimentos futuros. 
+            Esta projeção assume que o ativo manterá o mesmo desempenho histórico, o que raramente acontece. 
+            Mercados podem ter anos de perdas, e o valor real pode ser significativamente diferente. 
+            Use esta simulação apenas como referência educacional.</p>
+        </div>
+    `;
+    container.classList.remove('hidden');
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Simulação 3: Regra dos 4%
+function calcularRegra4() {
+    const idadeAtual = parseInt(document.getElementById('regra4-idade-atual').value);
+    const idadeObjetivo = parseInt(document.getElementById('regra4-idade-objetivo').value);
+    const rendaMensal = parseFloat(document.getElementById('regra4-mensal').value);
+    const capitalAtual = parseFloat(document.getElementById('regra4-capital-atual').value);
+    const inflacao = parseFloat(document.getElementById('regra4-inflacao').value) / 100;
+    
+    // Validações
+    if (idadeObjetivo <= idadeAtual) {
+        alert('A idade objetivo deve ser maior que a idade atual.');
+        return;
+    }
+    
+    const taxaLevantamento = 0.04; // Regra dos 4% fixa
+    const anosAteObjetivo = idadeObjetivo - idadeAtual;
+    
+    // Ajustar renda pela inflação até idade objetivo
+    const rendaMensalAjustada = rendaMensal * Math.pow(1 + inflacao, anosAteObjetivo);
+    const rendaAnualAjustada = rendaMensalAjustada * 12;
+    
+    // Capital necessário na idade objetivo
+    const capitalNecessario = rendaAnualAjustada / taxaLevantamento;
+    
+    // Capital que ainda falta acumular
+    const capitalFaltante = Math.max(0, capitalNecessario - capitalAtual);
+    
+    // Simulação com VUUA (Vanguard S&P 500 UCITS ETF Accumulating)
+    // Rendimento histórico médio: ~10% anual
+    const rendimentoVUUA = 0.10;
+    const taxaMensalVUUA = Math.pow(1 + rendimentoVUUA, 1/12) - 1;
+    const mesesAteObjetivo = anosAteObjetivo * 12;
+    
+    // Calcular investimento mensal necessário
+    // FV = PV * (1+r)^n + PMT * [(1+r)^n - 1] / r
+    // Resolvendo para PMT:
+    const valorFuturoCapitalAtual = capitalAtual * Math.pow(1 + rendimentoVUUA, anosAteObjetivo);
+    const capitalFaltanteAjustado = capitalNecessario - valorFuturoCapitalAtual;
+    
+    let investimentoMensalVUUA = 0;
+    if (capitalFaltanteAjustado > 0) {
+        investimentoMensalVUUA = capitalFaltanteAjustado / (((Math.pow(1 + taxaMensalVUUA, mesesAteObjetivo) - 1) / taxaMensalVUUA));
+    }
+    
+    const totalInvestidoVUUA = investimentoMensalVUUA * mesesAteObjetivo + capitalAtual;
+    
+    const container = document.getElementById('resultado-regra4');
+    container.innerHTML = `
+        <div class="resultado-box resultado-destaque" style="max-width: 600px; margin: 0 auto;">
+            <h4>Capital Necessário aos ${idadeObjetivo} anos</h4>
+            <div class="resultado-valor">€${capitalNecessario.toLocaleString('pt-PT', {maximumFractionDigits: 0})}</div>
+            <p style="color: rgba(255,255,255,0.9);">Para renda de €${rendaMensalAjustada.toLocaleString('pt-PT', {maximumFractionDigits: 0})}/mês</p>
+        </div>
+        
+        <div class="resultado-info">
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Idade Atual → Idade Objetivo</span>
+                <span class="resultado-info-valor">${idadeAtual} → ${idadeObjetivo} anos (${anosAteObjetivo} anos)</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Renda Mensal Desejada (hoje)</span>
+                <span class="resultado-info-valor">€${rendaMensal.toLocaleString('pt-PT', {maximumFractionDigits: 0})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Renda Ajustada pela Inflação (${anosAteObjetivo} anos)</span>
+                <span class="resultado-info-valor">€${rendaMensalAjustada.toLocaleString('pt-PT', {maximumFractionDigits: 0})}/mês</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Capital Já Acumulado</span>
+                <span class="resultado-info-valor">€${capitalAtual.toLocaleString('pt-PT', {maximumFractionDigits: 0})}</span>
+            </div>
+            <div class="resultado-info-item">
+                <span class="resultado-info-label">Capital Ainda Necessário</span>
+                <span class="resultado-info-valor" style="color: var(--primary);">€${capitalFaltante.toLocaleString('pt-PT', {maximumFractionDigits: 0})}</span>
+            </div>
+        </div>
+        
+        <div class="sim-explicacao" style="margin-top: 2rem; background: #f0fdf4; border-left-color: var(--success);">
+            <h3 style="color: var(--success);">📊 Plano de Investimento - ETF VUUA</h3>
+            <p><strong>VUUA (Vanguard S&P 500 UCITS ETF Accumulating)</strong></p>
+            <p>Rendimento médio histórico: ~10% anual | Dividendos reinvestidos automaticamente</p>
+            
+            <div class="resultado-info" style="margin-top: 1rem;">
+                <div class="resultado-info-item">
+                    <span class="resultado-info-label">Investimento Mensal Necessário</span>
+                    <span class="resultado-info-valor" style="color: var(--success); font-size: 1.2rem; font-weight: bold;">
+                        €${investimentoMensalVUUA.toLocaleString('pt-PT', {maximumFractionDigits: 0})}/mês
+                    </span>
+                </div>
+                <div class="resultado-info-item">
+                    <span class="resultado-info-label">Total a Investir (${anosAteObjetivo} anos)</span>
+                    <span class="resultado-info-valor">€${totalInvestidoVUUA.toLocaleString('pt-PT', {maximumFractionDigits: 0})}</span>
+                </div>
+                <div class="resultado-info-item">
+                    <span class="resultado-info-label">Valor Final Estimado</span>
+                    <span class="resultado-info-valor">€${capitalNecessario.toLocaleString('pt-PT', {maximumFractionDigits: 0})}</span>
+                </div>
+                <div class="resultado-info-item">
+                    <span class="resultado-info-label">Ganhos Estimados</span>
+                    <span class="resultado-info-valor" style="color: var(--success);">
+                        €${(capitalNecessario - totalInvestidoVUUA).toLocaleString('pt-PT', {maximumFractionDigits: 0})}
+                    </span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                <strong>💡 Nota:</strong> Investindo €${investimentoMensalVUUA.toLocaleString('pt-PT', {maximumFractionDigits: 0})} por mês no VUUA 
+                durante ${anosAteObjetivo} anos, deverá atingir o capital necessário para ter uma renda mensal de 
+                €${rendaMensalAjustada.toLocaleString('pt-PT', {maximumFractionDigits: 0})} aos ${idadeObjetivo} anos, 
+                seguindo a regra dos 4%.
+            </p>
+        </div>
+        
+        <div class="sim-explicacao" style="margin-top: 1rem;">
+            <p><strong>⚠️ Aviso:</strong> Esta simulação é baseada em dados históricos e não garante resultados futuros. 
+            O rendimento de 10% do VUUA é uma média histórica do S&P 500. Considere sempre uma margem de segurança e 
+            consulte um profissional certificado antes de tomar decisões de investimento.</p>
+        </div>
+    `;
+    container.classList.remove('hidden');
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+
+
+// Renderizar glossário
+let glossarioFiltrado = [...glossario];
+
+function renderizarGlossario(filtro = '') {
+    const container = document.getElementById('glossario-container');
+    
+    // Filtrar termos
+    let termos = glossario;
+    if (filtro) {
+        termos = glossario.filter(item => 
+            item.termo.toLowerCase().includes(filtro.toLowerCase()) ||
+            item.definicao.toLowerCase().includes(filtro.toLowerCase())
+        );
+    }
+    
+    if (termos.length === 0) {
+        container.innerHTML = `
+            <div class="glossario-vazio">
+                <span class="icon">🔍</span>
+                <p>Nenhum termo encontrado para "${filtro}"</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Ordenar alfabeticamente
+    termos.sort((a, b) => a.termo.localeCompare(b.termo));
+    
+    container.innerHTML = termos.map(item => `
+        <div class="glossario-termo">
+            <div class="glossario-termo-header">
+                <h3 class="glossario-termo-nome">${item.termo}</h3>
+                <span class="glossario-categoria-badge">${item.categoria}</span>
+            </div>
+            <p class="glossario-definicao">${item.definicao}</p>
+        </div>
+    `).join('');
+}
+
+function filtrarGlossario() {
+    const busca = document.getElementById('glossario-busca').value;
+    renderizarGlossario(busca);
+}
