@@ -106,10 +106,29 @@
         <section id="avaliar-ativos" class="section">
             <div class="container">
                 <h2>🔍 Avaliar Ativos</h2>
+                <p style="color: var(--text-light); margin-bottom: 1rem;">
+                    Insira os dados manualmente para avaliar um ativo. Use o Yahoo Finance para obter as informações.
+                </p>
+                
+                <!-- Instruções Yahoo Finance -->
+                <div class="sim-explicacao" style="background: #eff6ff; border-left-color: var(--primary);">
+                    <h3 style="color: var(--primary);">📊 Como Obter os Dados</h3>
+                    <p><strong>1.</strong> Acesse <a href="https://finance.yahoo.com/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Yahoo Finance</a></p>
+                    <p><strong>2.</strong> Use o campo "Search" no topo da página</p>
+                    <p><strong>3.</strong> Digite o ticker ou nome da empresa (ex: AAPL, Apple, Bitcoin)</p>
+                    <p><strong>4.</strong> Na página do ativo, encontre os dados necessários:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li><strong>Ações:</strong> P/E Ratio, Market Cap, Dividend Yield, Beta (aba "Statistics")</li>
+                        <li><strong>ETFs:</strong> Expense Ratio, AUM, Volume (aba "Profile" ou "Statistics")</li>
+                        <li><strong>REITs:</strong> Dividend Yield, Market Cap, Volume</li>
+                        <li><strong>Criptomoedas:</strong> Market Cap, Volume 24h, Variação (na página principal)</li>
+                    </ul>
+                </div>
+                
                 <div class="simulacao-form">
                     <div class="form-group">
                         <label>Tipo de Ativo:</label>
-                        <select id="tipo-ativo-sim">
+                        <select id="tipo-ativo-sim" onchange="atualizarCamposAvaliacao()">
                             <option value="">Selecione...</option>
                             <option value="acoes">Ações</option>
                             <option value="etf">ETF</option>
@@ -119,13 +138,14 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Sigla do Ativo:</label>
-                        <input type="text" id="sigla-ativo" placeholder="Ex: AAPL, GLD, BTC, ETH">
-                        <small style="color: var(--text-light); display: block; margin-top: 0.25rem;">
-                            Ações/ETF: AAPL, SPY, VWCE.DE | Commodities: GLD, SLV | Crypto: BTC, ETH, SOL
-                        </small>
+                        <label>Nome/Ticker do Ativo:</label>
+                        <input type="text" id="nome-ativo" placeholder="Ex: Apple, AAPL, Bitcoin">
                     </div>
-                    <button id="btn-simular" class="btn-primary">Avaliar</button>
+                    
+                    <!-- Campos dinâmicos baseados no tipo -->
+                    <div id="campos-avaliacao"></div>
+                    
+                    <button id="btn-avaliar" class="btn-primary" onclick="avaliarAtivo()">Avaliar Ativo</button>
                 </div>
                 <div id="resultado-simulacao" class="hidden"></div>
             </div>
@@ -186,10 +206,22 @@
                 <div id="sim-rendimento" class="sim-content">
                     <div class="sim-explicacao">
                         <h3>💡 Projeção de Rendimento</h3>
-                        <p><strong>Cálculo:</strong> Baseado no rendimento médio histórico dos últimos 10 anos + dividendos reinvestidos.</p>
+                        <p><strong>Cálculo:</strong> Baseado no rendimento médio que você inserir + dividendos reinvestidos.</p>
                         <p><strong>Fórmula:</strong> Valor Final = Investimento Mensal × [(1 + r)^n - 1] / r</p>
                         <p>Onde r = taxa mensal e n = número de meses. Dividendos são adicionados anualmente.</p>
-                        <p style="margin-top: 1rem;"><strong>💡 Dica:</strong> Pode usar dados de um ativo real (ex: AAPL, SPY, VWCE.DE) ou inserir valores personalizados manualmente.</p>
+                    </div>
+                    
+                    <!-- Instruções Yahoo Finance -->
+                    <div class="sim-explicacao" style="background: #eff6ff; border-left-color: var(--primary);">
+                        <h3 style="color: var(--primary);">📊 Como Obter os Dados no Yahoo Finance</h3>
+                        <p><strong>1.</strong> Acesse <a href="https://finance.yahoo.com/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Yahoo Finance</a></p>
+                        <p><strong>2.</strong> Pesquise o ticker ou nome do ativo (ex: AAPL, SPY, Bitcoin)</p>
+                        <p><strong>3.</strong> Na página do ativo:</p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>Rendimento Médio:</strong> Veja a performance em "Chart" → selecione período (1Y, 5Y, YTD)</li>
+                            <li><strong>Dividend Yield:</strong> Encontre na página principal ou aba "Statistics"</li>
+                            <li><strong>Exemplo:</strong> Se o ativo subiu 15% em 1 ano, use 15% como rendimento</li>
+                        </ul>
                     </div>
                     
                     <div class="sim-explicacao" style="background: #fef2f2; border-left-color: var(--danger);">
@@ -200,48 +232,32 @@
                     </div>
                     
                     <div class="simulacao-form">
-                        <div class="form-group" style="background: #eff6ff; padding: 1rem; border-radius: 6px; border-left: 4px solid var(--primary);">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 500;">
-                                <input type="checkbox" id="rend-usar-ticker" onchange="toggleTickerRendimento()" style="width: auto;">
-                                <span>🎯 Usar dados reais de um ativo específico (recomendado)</span>
-                            </label>
-                            <p style="margin: 0.5rem 0 0 1.75rem; font-size: 0.9rem; color: var(--text-light);">
-                                Marque esta opção para buscar automaticamente o rendimento histórico de ações, ETFs ou outros ativos
-                            </p>
-                        </div>
-                        
-                        <div id="rend-ticker-group" class="form-group hidden" style="background: #f0fdf4; padding: 1rem; border-radius: 6px; border: 2px solid var(--success);"></div>
-                            <label style="font-weight: 500; color: var(--success);">📊 Ticker do Ativo:</label>
-                            <p style="font-size: 0.9rem; color: var(--text-light); margin: 0.25rem 0 0.75rem 0;">
-                                Exemplos: AAPL (Apple), SPY (S&P 500), VWCE.DE (ETF Mundial), IWDA.AS (ETF Desenvolvidos)
-                            </p>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <input type="text" id="rend-ticker" placeholder="Ex: AAPL, SPY, VWCE.DE" style="flex: 1;">
-                                <button onclick="buscarDadosAtivo()" class="btn-primary">Buscar Dados</button>
-                            </div>
-                        </div>
-                        
                         <div class="form-row">
+                            <div class="form-group">
+                                <label>Nome/Ticker do Ativo (opcional):</label>
+                                <input type="text" id="rend-ticker" placeholder="Ex: AAPL, SPY, Bitcoin">
+                                <small style="color: var(--text-light);">Apenas para referência</small>
+                            </div>
                             <div class="form-group">
                                 <label>Investimento Mensal (€):</label>
                                 <input type="number" id="rend-mensal" value="200" min="0">
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group">
                                 <label>Período (anos):</label>
                                 <input type="number" id="rend-periodo" value="20" min="1">
                             </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group">
                                 <label>Rendimento Médio Anual (%):</label>
-                                <input type="number" id="rend-taxa" value="8" min="0" step="0.1">
-                                <small style="color: var(--text-light);">Preenchido automaticamente se usar ticker</small>
+                                <input type="number" id="rend-taxa" value="8" min="-100" step="0.1">
+                                <small style="color: var(--text-light);">Obtenha do Yahoo Finance</small>
                             </div>
-                            <div class="form-group">
-                                <label>Dividend Yield Anual (%):</label>
-                                <input type="number" id="rend-dividendos" value="2" min="0" step="0.1">
-                                <small style="color: var(--text-light);">Preenchido automaticamente se usar ticker</small>
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dividend Yield Anual (%):</label>
+                            <input type="number" id="rend-dividendos" value="2" min="0" step="0.1">
+                            <small style="color: var(--text-light);">Obtenha do Yahoo Finance (0 se não houver)</small>
                         </div>
                         <button onclick="calcularRendimento()" class="btn-primary">Calcular Projeção</button>
                     </div>
@@ -323,102 +339,6 @@
         <section id="anuncios" class="section">
             <div class="container">
                 <h2>📢 Anúncios e Atualizações</h2>
-                
-                <!-- Configuração de Múltiplas API Keys -->
-                <div class="api-config-box" style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary); margin-bottom: 2rem;">
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🔑 Configurar API Keys - Múltiplas Fontes de Dados</h3>
-                    <p style="margin-bottom: 1rem;">Configure múltiplas APIs gratuitas para obter o máximo de dados possível:</p>
-                    
-                    <!-- Alpha Vantage -->
-                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
-                        <h4 style="margin-bottom: 0.5rem;">
-                            <span style="color: var(--primary);">1. Alpha Vantage</span>
-                            <span id="status-alphavantage" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
-                        </h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
-                            <strong>Uso:</strong> Ações, ETFs, REITs, Commodities | <strong>Limite:</strong> 500/dia
-                        </p>
-                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                            <a href="https://www.alphavantage.co/support/#api-key" target="_blank" style="color: var(--primary);">Obter API Key →</a>
-                        </p>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="api-key-alphavantage" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
-                            <button onclick="salvarApiKey('alphavantage')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
-                        </div>
-                    </div>
-
-                    <!-- Financial Modeling Prep -->
-                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
-                        <h4 style="margin-bottom: 0.5rem;">
-                            <span style="color: var(--success);">2. Financial Modeling Prep</span>
-                            <span id="status-fmp" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
-                        </h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
-                            <strong>Uso:</strong> Notícias, Dividendos, Ratings, Balanços | <strong>Limite:</strong> 250/dia
-                        </p>
-                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                            <a href="https://site.financialmodelingprep.com/developer/docs" target="_blank" style="color: var(--primary);">Obter API Key →</a>
-                        </p>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="api-key-fmp" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
-                            <button onclick="salvarApiKey('fmp')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
-                        </div>
-                    </div>
-
-                    <!-- Twelve Data -->
-                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
-                        <h4 style="margin-bottom: 0.5rem;">
-                            <span style="color: var(--warning);">3. Twelve Data</span>
-                            <span id="status-twelvedata" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
-                        </h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
-                            <strong>Uso:</strong> Indicadores Técnicos (RSI, MACD) | <strong>Limite:</strong> 800/dia
-                        </p>
-                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                            <a href="https://twelvedata.com/pricing" target="_blank" style="color: var(--primary);">Obter API Key →</a>
-                        </p>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="api-key-twelvedata" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
-                            <button onclick="salvarApiKey('twelvedata')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
-                        </div>
-                    </div>
-
-                    <!-- Polygon -->
-                    <div class="api-config-item" style="margin-bottom: 1.5rem; padding: 1rem; background: white; border-radius: 6px;">
-                        <h4 style="margin-bottom: 0.5rem;">
-                            <span style="color: #9333ea;">4. Polygon</span>
-                            <span id="status-polygon" style="font-size: 0.9rem; margin-left: 0.5rem;"></span>
-                        </h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">
-                            <strong>Uso:</strong> Splits de Ações, Dados Históricos | <strong>Limite:</strong> 5/min
-                        </p>
-                        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                            <a href="https://polygon.io/pricing" target="_blank" style="color: var(--primary);">Obter API Key →</a>
-                        </p>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <input type="text" id="api-key-polygon" placeholder="Cole sua API key aqui" style="flex: 1; padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
-                            <button onclick="salvarApiKey('polygon')" class="btn-primary" style="padding: 0.5rem 1rem;">Salvar</button>
-                        </div>
-                    </div>
-
-                    <!-- CoinGecko (sem key) -->
-                    <div class="api-config-item" style="padding: 1rem; background: #f0fdf4; border-radius: 6px; border: 1px solid var(--success);">
-                        <h4 style="margin-bottom: 0.5rem;">
-                            <span style="color: var(--success);">5. CoinGecko</span>
-                            <span style="font-size: 0.9rem; margin-left: 0.5rem; color: var(--success);">✅ Ativa (sem configuração)</span>
-                        </h4>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0;">
-                            <strong>Uso:</strong> Criptomoedas (BTC, ETH, SOL, etc.) | <strong>Limite:</strong> 10-50/min | <strong>Sem API key necessária</strong>
-                        </p>
-                    </div>
-
-                    <div style="margin-top: 1rem; padding: 1rem; background: #fef2f2; border-radius: 6px; border-left: 3px solid var(--danger);">
-                        <p style="font-size: 0.9rem; margin: 0;">
-                            <strong>💡 Dica:</strong> Configure todas as APIs para obter o máximo de dados possível. O sistema combina automaticamente informações de múltiplas fontes para preencher todos os campos.
-                        </p>
-                    </div>
-                </div>
-                
                 <div id="anuncios-container"></div>
             </div>
         </section>
@@ -431,8 +351,6 @@
     </footer>
 
     <script src="data.js"></script>
-    <script src="yahoo-finance.js"></script>
-    <script src="multi-api.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

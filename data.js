@@ -148,18 +148,18 @@ const tiposAtivos = [
         nome: "Criptomoedas (Bitcoin, Ethereum, etc.)",
         icon: "₿",
         pros: [
-            "Potencial de retorno elevado em mercados em alta",
-            "Descentralização - não controlado por governos ou bancos",
-            "Liquidez 24/7 - mercado aberto todos os dias",
-            "Facilidade de transferência global sem intermediários",
-            "Proteção contra desvalorização monetária (supply limitado)"
+            "Alto potencial de valorização",
+            "Descentralização e independência de governos",
+            "Liquidez 24/7 - mercado nunca fecha",
+            "Facilidade de transferência global",
+            "Tecnologia blockchain inovadora"
         ],
         contras: [
-            "Volatilidade extrema - oscilações de 20-50% são comuns",
-            "Risco regulatório - legislação ainda em desenvolvimento",
-            "Risco de segurança - hacks, perda de chaves privadas",
+            "Volatilidade extremamente elevada",
+            "Risco regulatório e legal",
+            "Segurança - risco de hacks e perda de chaves",
             "Não gera rendimento passivo (exceto staking)",
-            "Mercado especulativo com manipulação possível"
+            "Mercado ainda imaturo e especulativo"
         ]
     }
 ];
@@ -370,29 +370,29 @@ const indicadoresPorTipo = {
     ],
     criptomoedas: [
         {
-            nome: "Market Cap (Capitalização)",
-            descricao: "Valor total de mercado da criptomoeda. Maior market cap geralmente indica menor risco relativo.",
-            ideal: "> $10B (Large Cap)"
+            nome: "Market Cap",
+            descricao: "Capitalização de mercado total. Criptos com market cap maior tendem a ser mais estáveis.",
+            ideal: "> $10B (large cap)"
         },
         {
-            nome: "Volume 24h / Market Cap",
-            descricao: "Rácio de liquidez. Valores entre 5-15% indicam boa liquidez sem manipulação excessiva.",
-            ideal: "5-15%"
+            nome: "Volume 24h",
+            descricao: "Volume de negociação nas últimas 24 horas. Indica liquidez e interesse do mercado.",
+            ideal: "> $1B/dia"
         },
         {
             nome: "Volatilidade (30 dias)",
-            descricao: "Desvio padrão dos retornos. Crypto é volátil por natureza, mas valores extremos aumentam risco.",
-            ideal: "30-60% (moderada para crypto)"
+            descricao: "Flutuação de preço. Criptos são naturalmente voláteis, mas valores extremos indicam maior risco.",
+            ideal: "30-60% (moderada para cripto)"
         },
         {
-            nome: "Distância do ATH (All-Time High)",
-            descricao: "Percentagem abaixo do máximo histórico. Valores <50% podem indicar oportunidade de entrada.",
-            ideal: "30-70% abaixo do ATH"
+            nome: "Dominância de Mercado",
+            descricao: "Percentagem do market cap total de criptos. Bitcoin tem ~40-50% de dominância.",
+            ideal: "> 5% (relevância)"
         },
         {
-            nome: "Rendimento Anual (CAGR 1 ano)",
-            descricao: "Taxa de crescimento anual composta. Mede performance recente, mas não garante futuro.",
-            ideal: "> 20% (positivo)"
+            nome: "Rendimento Anual (1 ano)",
+            descricao: "Performance dos últimos 12 meses. Criptos podem ter variações extremas.",
+            ideal: "Positivo (mas varia muito)"
         }
     ]
 };
@@ -634,33 +634,68 @@ const glossario = [
         categoria: "Conceitos"
     },
     {
-        termo: "Bitcoin (BTC)",
-        definicao: "A primeira e maior criptomoeda por capitalização de mercado. Criada em 2009, funciona como 'ouro digital' com supply limitado a 21 milhões de unidades. Descentralizada e sem controlo governamental.",
-        categoria: "Ativos"
+        termo: "P/E Ratio",
+        definicao: "Price to Earnings - compara o preço da ação com o lucro que a empresa gera. P/E de 20 significa que paga 20 anos de lucros pelo preço atual. Valores baixos podem indicar que a ação está barata.",
+        categoria: "Indicadores"
     },
     {
-        termo: "Ethereum (ETH)",
-        definicao: "Segunda maior criptomoeda. Além de moeda, é uma plataforma para contratos inteligentes e aplicações descentralizadas (DApps). Base para DeFi, NFTs e Web3.",
-        categoria: "Ativos"
+        termo: "ROE",
+        definicao: "Return on Equity - mede quão bem a empresa usa o dinheiro dos acionistas para gerar lucro. ROE de 15% significa que para cada €100 de capital, a empresa gera €15 de lucro. Quanto maior, melhor.",
+        categoria: "Indicadores"
     },
     {
-        termo: "Altcoins",
-        definicao: "Todas as criptomoedas que não são Bitcoin. Exemplos: Ethereum, Solana, Cardano. Geralmente mais voláteis que Bitcoin, com maior risco e potencial de retorno.",
-        categoria: "Ativos"
+        termo: "Debt to Equity",
+        definicao: "Compara a dívida da empresa com o capital próprio. Valor de 0.5 significa que a empresa tem €50 de dívida para cada €100 de capital. Valores baixos indicam menor risco financeiro.",
+        categoria: "Indicadores"
     },
     {
-        termo: "Staking",
-        definicao: "Bloquear criptomoedas numa rede blockchain para ajudar a validar transações e ganhar recompensas (como juros). Forma de gerar rendimento passivo com crypto.",
-        categoria: "Estratégias"
+        termo: "EPS Growth",
+        definicao: "Earnings Per Share Growth - crescimento do lucro por ação. Se uma empresa cresce 15% ao ano, está a aumentar os lucros consistentemente. Indica empresas em expansão.",
+        categoria: "Indicadores"
     },
     {
-        termo: "Wallet (Carteira Crypto)",
-        definicao: "Software ou hardware que guarda as suas chaves privadas para aceder às suas criptomoedas. 'Not your keys, not your coins' - se não controla as chaves, não controla os fundos.",
-        categoria: "Ferramentas"
+        termo: "Expense Ratio",
+        definicao: "Custos anuais de um ETF, expressos em percentagem. Um expense ratio de 0.20% significa que paga €2 por ano por cada €1.000 investidos. Quanto mais baixo, melhor para o seu retorno.",
+        categoria: "Indicadores"
     },
     {
-        termo: "Exchange (Corretora Crypto)",
-        definicao: "Plataforma para comprar, vender e trocar criptomoedas. Exemplos: Binance, Coinbase, Kraken. Atenção aos custos de transação e segurança.",
-        categoria: "Ferramentas"
+        termo: "Tracking Error",
+        definicao: "Diferença entre o desempenho de um ETF e o índice que deveria copiar. Um tracking error de 0.5% significa que o ETF desvia meio ponto percentual do índice. Valores baixos são melhores.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "AUM",
+        definicao: "Assets Under Management - total de dinheiro gerido por um ETF ou fundo. Um ETF com €5 mil milhões de AUM é grande e estável. ETFs pequenos (< €100M) podem ter problemas de liquidez.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "FFO",
+        definicao: "Funds From Operations - medida de cash flow para REITs. Mais importante que o lucro líquido porque REITs depreciam imóveis. FFO alto indica que o REIT gera bom dinheiro das propriedades.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "Occupancy Rate",
+        definicao: "Taxa de ocupação dos imóveis de um REIT. 95% significa que 95% dos espaços estão alugados. Taxas altas (> 90%) indicam boa gestão e procura forte.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "Price to FFO",
+        definicao: "Para REITs, é como o P/E para ações. Compara o preço com o FFO. Valores entre 10-15 são considerados razoáveis. Ajuda a identificar se um REIT está caro ou barato.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "Beta",
+        definicao: "Mede a volatilidade de uma ação comparada com o mercado. Beta de 1.0 = move-se igual ao mercado. Beta de 1.5 = 50% mais volátil. Beta de 0.5 = metade da volatilidade do mercado.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "Market Cap",
+        definicao: "Capitalização de mercado - valor total de todas as ações de uma empresa. Calculado multiplicando preço da ação pelo número de ações. Empresas grandes (> €10B) são geralmente mais estáveis.",
+        categoria: "Indicadores"
+    },
+    {
+        termo: "Dividend Yield",
+        definicao: "Rendimento de dividendos em percentagem. Se uma ação custa €100 e paga €4 de dividendos por ano, o yield é 4%. Yields de 2-6% são comuns em ações sólidas.",
+        categoria: "Indicadores"
     }
 ];

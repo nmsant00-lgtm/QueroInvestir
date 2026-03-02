@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste FMP API</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8fafc;
+        }
+        h1 {
+            color: #1e293b;
+        }
+        .test-section {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #059669;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+        input {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste FMP API</h1>
+    <p>Teste as chamadas à API da Financial Modeling Prep</p>
+
+    <div class="test-section">
+        <h2>1. Buscar Ticker por Nome</h2>
+        <input type="text" id="search-query" placeholder="Ex: Apple" value="Apple">
+        <button onclick="testBuscarTicker()">Buscar</button>
+        <div id="result-search" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Obter Cotação</h2>
+        <input type="text" id="quote-symbol" placeholder="Ex: AAPL" value="AAPL">
+        <button onclick="testObterCotacao()">Buscar Cotação</button>
+        <div id="result-quote" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Obter Perfil da Empresa</h2>
+        <input type="text" id="profile-symbol" placeholder="Ex: AAPL" value="AAPL">
+        <button onclick="testObterPerfil()">Buscar Perfil</button>
+        <div id="result-profile" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Obter Income Statement</h2>
+        <input type="text" id="income-symbol" placeholder="Ex: AAPL" value="AAPL">
+        <button onclick="testObterIncome()">Buscar Income Statement</button>
+        <div id="result-income" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Obter Dados Completos (Tudo de uma vez)</h2>
+        <input type="text" id="complete-symbol" placeholder="Ex: AAPL" value="AAPL">
+        <button onclick="testDadosCompletos()">Buscar Dados Completos</button>
+        <div id="result-complete" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>6. Teste Rápido - Múltiplos Tickers</h2>
+        <button onclick="testMultiplos()">Testar AAPL, MSFT, GOOGL</button>
+        <div id="result-multiple" class="result" style="display: none;"></div>
+    </div>
+
+    <script src="fmp-api.js"></script>
+    <script>
+        async function testBuscarTicker() {
+            const query = document.getElementById('search-query').value;
+            const resultDiv = document.getElementById('result-search');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🔄 Buscando...';
+            
+            try {
+                const result = await window.FMP.buscarTickerPorNome(query);
+                resultDiv.innerHTML = `<span class="success">✓ Sucesso!</span>\n\n` + JSON.stringify(result, null, 2);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">✗ Erro:</span>\n\n` + error.message;
+            }
+        }
+
+        async function testObterCotacao() {
+            const symbol = document.getElementById('quote-symbol').value;
+            const resultDiv = document.getElementById('result-quote');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🔄 Buscando...';
+            
+            try {
+                const result = await window.FMP.obterCotacao(symbol);
+                resultDiv.innerHTML = `<span class="success">✓ Sucesso!</span>\n\n` + JSON.stringify(result, null, 2);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">✗ Erro:</span>\n\n` + error.message;
+            }
+        }
+
+        async function testObterPerfil() {
+            const symbol = document.getElementById('profile-symbol').value;
+            const resultDiv = document.getElementById('result-profile');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🔄 Buscando...';
+            
+            try {
+                const result = await window.FMP.obterPerfilEmpresa(symbol);
+                resultDiv.innerHTML = `<span class="success">✓ Sucesso!</span>\n\n` + JSON.stringify(result, null, 2);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">✗ Erro:</span>\n\n` + error.message;
+            }
+        }
+
+        async function testObterIncome() {
+            const symbol = document.getElementById('income-symbol').value;
+            const resultDiv = document.getElementById('result-income');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🔄 Buscando...';
+            
+            try {
+                const result = await window.FMP.obterIncomeStatement(symbol);
+                resultDiv.innerHTML = `<span class="success">✓ Sucesso!</span>\n\nMostrando primeiros 2 anos:\n\n` + JSON.stringify(result.slice(0, 2), null, 2);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">✗ Erro:</span>\n\n` + error.message;
+            }
+        }
+
+        async function testDadosCompletos() {
+            const symbol = document.getElementById('complete-symbol').value;
+            const resultDiv = document.getElementById('result-complete');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🔄 Buscando dados completos...';
+            
+            try {
+                const result = await window.FMP.obterDadosCompletos(symbol);
+                resultDiv.innerHTML = `<span class="success">✓ Sucesso!</span>\n\n` + JSON.stringify(result, null, 2);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">✗ Erro:</span>\n\n` + error.message;
+            }
+        }
+
+        async function testMultiplos() {
+            const resultDiv = document.getElementById('result-multiple');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🔄 Testando múltiplos tickers...';
+            
+            const tickers = ['AAPL', 'MSFT', 'GOOGL'];
+            const results = [];
+            
+            for (const ticker of tickers) {
+                try {
+                    const data = await window.FMP.obterDadosCompletos(ticker);
+                    results.push({
+                        ticker: ticker,
+                        status: 'success',
+                        nome: data.nome,
+                        preco: data.indicadores.preco,
+                        peRatio: data.indicadores.peRatio,
+                        marketCap: data.indicadores.marketCap
+                    });
+                } catch (error) {
+                    results.push({
+                        ticker: ticker,
+                        status: 'error',
+                        error: error.message
+                    });
+                }
+            }
+            
+            resultDiv.innerHTML = `<span class="success">✓ Teste completo!</span>\n\n` + JSON.stringify(results, null, 2);
+        }
+    </script>
+</body>
+</html>

@@ -1,248 +1,166 @@
-# Quero Investir e Agora? by Nuno Santos
+# Quero Investir e Agora? 💰
 
-Website educacional gratuito para avaliar ativos de investimento de forma inteligente.
+Website educacional gratuito para avaliar ativos de investimento com **dados reais** via FMP API.
 
-## 🎯 Funcionalidades
+**Versão 2.0 - FMP Integration** ✅
 
-### 1. Tipos de Ativos
-Conheça os prós e contras de **9 tipos de investimento**:
-- Ações
-- Obrigações
-- PPR (Plano Poupança Reforma)
-- Certificados de Aforro
-- ETF (Exchange Traded Funds)
-- Bens Imobiliários
-- REITs (Real Estate Investment Trusts)
-- Commodities (Ouro, Prata, Petróleo, etc.)
-- **Criptomoedas (Bitcoin, Ethereum, etc.)** ⭐ NOVO
+## 🎯 Objetivo
 
-### 2. Perfil de Investidor
-Questionário interativo que identifica seu perfil:
-- Conservador
-- Moderado
-- Arrojado
+Fornecer uma ferramenta simples e acessível para investidores iniciantes e intermediários avaliarem diferentes tipos de ativos financeiros com dados reais de mercado, entenderem indicadores-chave e tomarem decisões mais informadas.
 
-Receba recomendações de alocação personalizadas baseadas no seu perfil.
+## ✨ Funcionalidades
 
-### 3. Indicadores
-Top 5 indicadores para avaliar cada tipo de ativo:
-- **Ações**: P/E Ratio, ROE, Dividend Yield, Debt to Equity, EPS Growth
-- **ETF**: Expense Ratio, Tracking Error, Volume, Dividend Yield, AUM
-- **REIT**: FFO, Dividend Yield, Occupancy Rate, Debt to Equity, Price to FFO
-- **Commodities**: Tendência de Preço, Rácio Oferta/Procura, Correlação com Inflação, Volatilidade, Volume
-- **Criptomoedas**: Market Cap, Volume/Market Cap, Volatilidade, Distância do ATH, CAGR 1 ano ⭐ NOVO
+### 📊 Com Dados Reais (FMP API)
+- **Avaliar Ativos**: Análise de ações com dados reais
+  - P/E Ratio, ROE, Dividend Yield
+  - Debt to Equity, EPS Growth
+  - Volume, Market Cap, Beta
+- **Simulações de Rendimento**: Projeções baseadas em dados históricos reais
 
-### 4. Avaliar Ativos
-Avalie ativos específicos com **dados reais de mercado**:
-- Insira o ticker (ex: AAPL, SPY, GLD, BTC, ETH)
-- Veja análise completa de indicadores
-- Compare valores atuais vs valores ideais
-- Receba score de propensão para investir
+### 🎓 Ferramentas Educacionais
+- **Tipos de Ativos**: Comparação detalhada de prós e contras
+- **Perfil de Investidor**: Questionário para descobrir seu perfil
+- **Indicadores**: Top 5 indicadores por tipo de ativo
+- **Simulações Financeiras**: 
+  - Calculadora de juros compostos
+  - Projeção de rendimento de ativos
+  - Regra dos 4% (FIRE Movement)
+- **Glossário**: 38 termos financeiros com definições simples
+- **Corretoras**: Comparação de 10 plataformas de investimento
 
-**APIs Integradas:**
-- Alpha Vantage (Ações, ETFs, REITs, Commodities)
-- CoinGecko (Criptomoedas) ⭐ NOVO
+## 🚀 Como Usar
 
-### 5. Simulações Financeiras
-Três calculadoras poderosas:
-
-#### 5.1 Juros Compostos
-- Compare juro simples vs juro composto
-- Inclua contribuições mensais
-- Veja o "efeito bola de neve" do seu dinheiro
-
-#### 5.2 Rendimento de Ativo
-- Projete o valor futuro dos seus investimentos
-- Use dados reais de ativos (busca automática por ticker)
-- Considere dividendos reinvestidos
-- Calcule retorno anualizado
-
-#### 5.3 Regra dos 4% (FIRE)
-- Calcule o capital necessário para independência financeira
-- Planeje sua reforma antecipada
-- Receba plano de investimento mensal (ETF VUUA)
-- Ajuste pela inflação
-
-### 6. Glossário
-**32 termos financeiros** explicados de forma simples:
-- Conceitos básicos (Ações, ETF, Dividendos)
-- Estratégias (DCA, FIRE, Diversificação)
-- Ferramentas (Corretoras, Ticker, Portfolio)
-- Psicologia (FOMO, Bear/Bull Market)
-- **Criptomoedas (Bitcoin, Ethereum, Staking, Wallet)** ⭐ NOVO
-
-### 7. Corretoras
-Comparação de 10 plataformas de investimento:
-- DEGIRO, Interactive Brokers, Revolut, Freedom24
-- Trading 212, XTB, eToro, Saxo Bank
-- Banco Invest, ActivoBank
-
-Cada uma com:
-- Avaliação (0-5 estrelas)
-- Ponto mais positivo
-- Ponto mais negativo
-- Disponibilidade de app móvel
-- Link direto
-
-### 8. Anúncios
-- Novidades e atualizações da plataforma
-- Configuração de API keys
-- Avisos importantes
-
-## 🚀 Tecnologias
-
-- **HTML5** - Estrutura semântica
-- **CSS3** - Design responsivo e moderno
-- **JavaScript (Vanilla)** - Lógica e interatividade
-- **APIs Externas**:
-  - Alpha Vantage (dados de mercado)
-  - CoinGecko (criptomoedas)
-  - Financial Modeling Prep (opcional)
-  - Twelve Data (opcional)
-  - Polygon (opcional)
-
-## 📱 Responsividade
-
-Website totalmente responsivo para:
-- 📱 Smartphones (320px - 480px)
-- 📱 Tablets (481px - 768px)
-- 💻 Desktop (769px+)
-
-## 🔑 Configuração de API Keys
-
-### Alpha Vantage (Obrigatória)
-1. Acesse: https://www.alphavantage.co/support/#api-key
-2. Preencha o formulário simples
-3. Copie a API key recebida por email
-4. Cole na seção "Anúncios" do website
-5. Clique em "Salvar API Key"
-
-**Limite**: 500 requisições/dia (gratuito)
-
-### CoinGecko (Sem API Key)
-- Não requer configuração
-- Funciona automaticamente
-- Limite: 10-50 requisições/minuto
-
-## 📊 Como Usar
-
-### Avaliar um Ativo
-
-1. Vá para "Avaliar Ativos"
-2. Selecione o tipo (Ações, ETF, REIT, Commodities, Criptomoedas)
-3. Insira o ticker:
-   - Ações: AAPL, MSFT, GOOGL
-   - ETFs: SPY, VOO, VWCE.DE
-   - Commodities: GLD, SLV
-   - Crypto: BTC, ETH, SOL
-4. Clique em "Avaliar"
-5. Veja análise completa com dados reais
-
-### Fazer uma Simulação
-
-1. Vá para "Simulações"
-2. Escolha o tipo:
-   - Juros Compostos
-   - Rendimento de Ativo
-   - Regra dos 4%
-3. Preencha os campos
-4. Clique em "Calcular"
-5. Exporte o resultado se desejar
-
-## 🌐 Deploy
-
-Veja o guia completo em [DEPLOY.md](DEPLOY.md)
-
-Opções gratuitas:
-- GitHub Pages (recomendado)
-- Netlify
-- Vercel
-- Cloudflare Pages
-
-## ⚠️ Avisos Importantes
-
-1. **Não é aconselhamento financeiro**: Este website é apenas educacional
-2. **Rendimentos passados ≠ Rendimentos futuros**: Dados históricos não garantem resultados
-3. **Consulte profissionais**: Sempre consulte um consultor certificado antes de investir
-4. **Dados em tempo real**: Sujeitos a limites de API e disponibilidade
-5. **Uso pessoal**: API keys gratuitas são para uso pessoal/educacional
-
-## 📁 Estrutura do Projeto
-
-```
-/
-├── index.html              # Página principal
-├── styles.css              # Estilos CSS
-├── app.js                  # Lógica da aplicação
-├── data.js                 # Dados estáticos
-├── yahoo-finance.js        # Alpha Vantage API
-├── multi-api.js            # Multi-API Manager ⭐ NOVO
-├── README.md               # Este arquivo
-├── DEPLOY.md               # Guia de deployment
-├── MULTI-API.md            # Guia de APIs ⭐ NOVO
-├── YAHOO-FINANCE.md        # Documentação Alpha Vantage
-└── design-thinking/        # Documentação do processo
-    ├── 01-empatia/
-    ├── 02-definicao/
-    ├── 03-ideacao/
-    ├── 04-epicos-user-stories/
-    ├── 05-requisitos/
-    └── 06-resumo-executivo.md
+### Opção 1: Abrir Localmente
+```bash
+open index.html
 ```
 
-## 🎨 Design Thinking
+### Opção 2: Servidor Local
+```bash
+# Python 3
+python3 -m http.server 8000
 
-Este projeto foi desenvolvido seguindo a metodologia Design Thinking:
-1. **Empatia**: Entrevistas sintéticas com investidores
-2. **Definição**: POV e HMW statements
-3. **Ideação**: Brainstorming de soluções
-4. **Prototipagem**: Mockup e validação
-5. **Implementação**: Website funcional
+# Depois acesse: http://localhost:8000
+```
 
-Veja a documentação completa em `design-thinking/`
+### Opção 3: Live Server (VS Code)
+1. Instale extensão "Live Server"
+2. Clique direito em `index.html`
+3. Selecione "Open with Live Server"
 
-## 📈 Estatísticas
+## 📊 Tickers Testados e Funcionando
 
-- **9 tipos de ativos** (incluindo crypto)
-- **40+ indicadores** financeiros
-- **32 termos** no glossário
-- **10 corretoras** comparadas
-- **3 simuladores** financeiros
-- **5 APIs** integradas
-- **100% gratuito** e open-source
+### Ações
+- ✅ AAPL (Apple), MSFT (Microsoft), GOOGL (Google)
+- ✅ TSLA (Tesla), AMZN (Amazon), META (Meta)
+- ✅ NVDA (Nvidia), KO (Coca-Cola), JNJ (Johnson & Johnson)
 
-## 🔄 Atualizações Recentes
+### ETFs
+- ✅ SPY (S&P 500), VOO (Vanguard S&P 500)
+- ✅ VTI (Vanguard Total Market), QQQ (Nasdaq 100)
 
-### Versão 2.0 (2026-02-25)
-- ✅ Adicionado suporte para Criptomoedas
-- ✅ Integração com CoinGecko API
-- ✅ Multi-API Manager implementado
-- ✅ 5 novos indicadores para crypto
-- ✅ 7 novos termos no glossário
-- ✅ Documentação expandida
+## 🔑 API Integration
 
-### Versão 1.0 (2026-02-20)
-- ✅ Integração com Alpha Vantage
+Integrado com **Financial Modeling Prep (FMP)**
 - ✅ Dados reais de mercado
-- ✅ 8 tipos de ativos
-- ✅ 3 simuladores financeiros
-- ✅ Design responsivo
+- ✅ Indicadores financeiros precisos
+- ✅ Cache inteligente (5 minutos)
+- ✅ Fallback automático se API falhar
 
-## 🤝 Contribuições
+## 📁 Estrutura de Arquivos
 
-Este é um projeto educacional pessoal. Sugestões são bem-vindas!
+### Arquivos Principais
+```
+index.html          - Website principal com FMP API
+app.js              - JavaScript com integração FMP
+fmp-api.js          - Módulo de integração FMP
+data.js             - Dados estáticos (glossário, etc)
+styles.css          - Estilos CSS
+```
 
-## 📄 Licença
+### Arquivos de Teste
+```
+validate-fmp.html   - Validação rápida (5 testes)
+test-fmp-api.html   - Teste detalhado da API
+```
 
-Uso livre para fins educacionais e pessoais.
+### Versão Alternativa
+```
+index-sem-api.html  - Versão com dados simulados
+app-sem-api.js      - JavaScript sem API
+```
+
+### Documentação
+```
+VERSAO-FINAL-FMP.md - Guia completo da versão final
+FMP-INTEGRATION.md  - Documentação técnica da API
+README.md           - Este arquivo
+```
+
+## 🧪 Validação
+
+Execute `validate-fmp.html` para testar a integração da API:
+```bash
+open validate-fmp.html
+```
+
+Todos os 5 testes devem passar ✅
+
+## 💻 Tecnologias
+
+- HTML5
+- CSS3 (design responsivo)
+- JavaScript Vanilla (ES6+)
+- FMP API (Financial Modeling Prep)
+
+## 📚 Documentação Completa
+
+- **VERSAO-FINAL-FMP.md** - Guia completo com:
+  - Instruções de uso
+  - Tickers testados
+  - Troubleshooting
+  - Checklist de deploy
+  
+- **FMP-INTEGRATION.md** - Documentação técnica:
+  - Endpoints utilizados
+  - Estrutura do código
+  - Limitações conhecidas
+  - Próximos passos
+
+## 🎯 Status do Projeto
+
+- ✅ Design e UX completos
+- ✅ Integração FMP API funcionando
+- ✅ Dados reais de mercado
+- ✅ Fallback automático
+- ✅ Cache inteligente
+- ✅ Testes de validação
+- ✅ Documentação completa
+- ✅ Pronto para produção
+
+## 📝 Nota Importante
+
+Esta é uma ferramenta educacional. Não constitui aconselhamento financeiro. Consulte sempre um profissional certificado antes de tomar decisões de investimento.
+
+**Rendimentos passados não garantem rendimentos futuros.**
 
 ## 👤 Autor
 
-**Nuno Santos**  
-Website: Quero Investir e Agora?  
-Versão: 2.0  
-Data: 2026-02-25
+**Nuno Santos** - 2026
+
+## 📄 Licença
+
+Ferramenta educacional gratuita.
 
 ---
 
-**Nota**: Este website não constitui aconselhamento financeiro. Sempre faça sua própria pesquisa e consulte profissionais certificados antes de tomar decisões de investimento.
+## 🚀 Quick Start
+
+```bash
+# 1. Clone ou baixe o projeto
+# 2. Abra index.html no navegador
+# 3. Teste com ticker AAPL
+# 4. Explore todas as funcionalidades!
+```
+
+**Aproveite!** 🎉

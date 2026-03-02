@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação FMP API</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f8fafc;
+        }
+        .status {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .loading { background: #dbeafe; color: #1e40af; }
+        .test-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        button:hover { background: #2563eb; }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Validação FMP API</h1>
+    <p>Testando integração com Financial Modeling Prep</p>
+
+    <div id="status" class="status loading">⏳ Iniciando testes...</div>
+
+    <div id="results"></div>
+
+    <button onclick="runTests()">🔄 Executar Testes Novamente</button>
+
+    <script src="fmp-api.js"></script>
+    <script>
+        async function runTests() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = '⏳ Executando testes...';
+            resultsDiv.innerHTML = '';
+
+            const tests = [
+                {
+                    name: 'Teste 1: Buscar ticker AAPL',
+                    fn: async () => {
+                        const data = await window.FMP.obterCotacao('AAPL');
+                        return {
+                            success: data && data.price > 0,
+                            data: { price: data.price, symbol: data.symbol }
+                        };
+                    }
+                },
+                {
+                    name: 'Teste 2: Obter perfil da Apple',
+                    fn: async () => {
+                        const data = await window.FMP.obterPerfilEmpresa('AAPL');
+                        return {
+                            success: data && data.companyName,
+                            data: { name: data.companyName, sector: data.sector }
+                        };
+                    }
+                },
+                {
+                    name: 'Teste 3: Obter dados completos MSFT',
+                    fn: async () => {
+                        const data = await window.FMP.obterDadosCompletos('MSFT');
+                        return {
+                            success: data && data.indicadores && data.indicadores.preco > 0,
+                            data: { 
+                                nome: data.nome,
+                                preco: data.indicadores.preco,
+                                peRatio: data.indicadores.peRatio
+                            }
+                        };
+                    }
+                },
+                {
+                    name: 'Teste 4: Buscar rendimento histórico GOOGL',
+                    fn: async () => {
+                        const data = await window.FMP.obterRendimentoHistorico('GOOGL');
+                        return {
+                            success: data && data.rendimentoAnual > 0,
+                            data: { 
+                                rendimento: data.rendimentoAnual + '%',
+                                dividendos: data.dividendYield + '%'
+                            }
+                        };
+                    }
+                },
+                {
+                    name: 'Teste 5: Buscar por nome "Tesla"',
+                    fn: async () => {
+                        const data = await window.FMP.buscarTickerPorNome('Tesla');
+                        return {
+                            success: data && data.length > 0,
+                            data: { resultados: data.length, primeiro: data[0]?.symbol }
+                        };
+                    }
+                }
+            ];
+
+            let passed = 0;
+            let failed = 0;
+
+            for (const test of tests) {
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test-item';
+                testDiv.innerHTML = `<strong>${test.name}</strong><br>⏳ Executando...`;
+                resultsDiv.appendChild(testDiv);
+
+                try {
+                    const result = await test.fn();
+                    if (result.success) {
+                        passed++;
+                        testDiv.innerHTML = `
+                            <strong>✅ ${test.name}</strong><br>
+                            <span style="color: #059669;">Sucesso!</span>
+                            <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                        `;
+                    } else {
+                        failed++;
+                        testDiv.innerHTML = `
+                            <strong>❌ ${test.name}</strong><br>
+                            <span style="color: #dc2626;">Falhou - dados inválidos</span>
+                        `;
+                    }
+                } catch (error) {
+                    failed++;
+                    testDiv.innerHTML = `
+                        <strong>❌ ${test.name}</strong><br>
+                        <span style="color: #dc2626;">Erro: ${error.message}</span>
+                    `;
+                }
+            }
+
+            // Status final
+            if (failed === 0) {
+                statusDiv.className = 'status success';
+                statusDiv.textContent = `✅ Todos os testes passaram! (${passed}/${tests.length})`;
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = `⚠️ ${failed} teste(s) falharam. ${passed} passaram.`;
+            }
+        }
+
+        // Executar testes automaticamente ao carregar
+        window.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>
