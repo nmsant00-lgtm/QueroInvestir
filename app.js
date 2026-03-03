@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizarQuestionario();
     renderizarIndicadores();
     renderizarCorretoras();
+    renderizarFundoEmergencia();
+    renderizarPodcasts();
     renderizarGlossario();
     
     // Tabs de simulação
@@ -863,4 +865,123 @@ function renderizarCorretoras() {
     `).join('');
 }
 
-console.log('✅ app-sem-api.js carregado - Versão sem APIs');
+// Renderizar fundo de emergência
+// Renderizar fundo de emergência
+function renderizarFundoEmergencia() {
+    console.log('🆘 Renderizando Fundo de Emergência...');
+    const container = document.getElementById('fundo-emergencia-container');
+    
+    if (!container) {
+        console.error('❌ Container fundo-emergencia-container não encontrado!');
+        return;
+    }
+    
+    if (typeof fundoEmergencia === 'undefined') {
+        console.error('❌ Array fundoEmergencia não está definido!');
+        return;
+    }
+    
+    console.log(`✅ Renderizando ${fundoEmergencia.length} opções de fundo de emergência`);
+    
+    container.innerHTML = fundoEmergencia.map((opcao, index) => `
+        <div class="corretora-card">
+            <div class="corretora-header">
+                <div>
+                    <h3 class="corretora-nome">${index + 1}. ${opcao.nome}</h3>
+                    <span style="display: inline-block; padding: 0.25rem 0.75rem; background: var(--primary); color: white; border-radius: 12px; font-size: 0.85rem; margin-top: 0.5rem;">
+                        ${opcao.tipo}
+                    </span>
+                </div>
+                <div class="corretora-avaliacao">
+                    <span class="estrelas">⭐</span>
+                    <span>${opcao.avaliacao.toFixed(1)}/5</span>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; padding: 1rem; background: #f8fafc; border-radius: 6px;">
+                <div>
+                    <strong style="color: var(--primary); font-size: 0.85rem;">💰 Juros</strong>
+                    <p style="margin: 0.25rem 0 0 0; font-weight: 500;">${opcao.juros}</p>
+                </div>
+                <div>
+                    <strong style="color: var(--primary); font-size: 0.85rem;">⚡ Liquidez</strong>
+                    <p style="margin: 0.25rem 0 0 0; font-weight: 500;">${opcao.liquidez}</p>
+                </div>
+            </div>
+            
+            <div class="corretora-pontos">
+                <div class="ponto-positivo">
+                    <strong>✓ Vantagens</strong>
+                    <p>${opcao.pontoPositivo}</p>
+                </div>
+                <div class="ponto-negativo">
+                    <strong>✗ Desvantagens</strong>
+                    <p>${opcao.pontoNegativo}</p>
+                </div>
+            </div>
+            
+            <a href="${opcao.link}" target="_blank" rel="noopener noreferrer" class="corretora-link">
+                Visitar Website →
+            </a>
+        </div>
+    `).join('');
+    
+    console.log('✅ Fundo de Emergência renderizado com sucesso!');
+}
+
+// Renderizar podcasts
+function renderizarPodcasts() {
+    console.log('🎙️ Renderizando Podcasts...');
+    const container = document.getElementById('podcasts-container');
+    
+    if (!container) {
+        console.error('❌ Container podcasts-container não encontrado!');
+        return;
+    }
+    
+    if (typeof podcasts === 'undefined') {
+        console.error('❌ Array podcasts não está definido!');
+        return;
+    }
+    
+    console.log(`✅ Renderizando ${podcasts.length} podcasts`);
+    
+    container.innerHTML = podcasts.map((podcast, index) => `
+        <div class="corretora-card">
+            <div class="corretora-header">
+                <div>
+                    <h3 class="corretora-nome">${podcast.nome}</h3>
+                    <p style="color: var(--text-light); margin: 0.5rem 0 0 0; font-size: 0.9rem;">
+                        Por ${podcast.autor}
+                    </p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                    <span style="padding: 0.25rem 0.75rem; background: #1DB954; color: white; border-radius: 12px; font-size: 0.85rem;">
+                        ${podcast.plataforma}
+                    </span>
+                    <span style="font-size: 0.85rem; color: var(--text-light);">
+                        ${podcast.frequencia}
+                    </span>
+                </div>
+            </div>
+            
+            <p style="color: var(--text); margin: 1rem 0; line-height: 1.6;">
+                ${podcast.descricao}
+            </p>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #f8fafc; border-radius: 6px; margin: 1rem 0;">
+                <span style="color: var(--text-light); font-size: 0.9rem;">
+                    ⏱️ Duração: ${podcast.duracao}
+                </span>
+            </div>
+            
+            <a href="${podcast.link}" target="_blank" rel="noopener noreferrer" class="corretora-link">
+                🎧 Ouvir no Spotify →
+            </a>
+        </div>
+    `).join('');
+    
+    console.log('✅ Podcasts renderizados com sucesso!');
+}
+
+console.log('✅ app.js carregado - Versão 5.0');

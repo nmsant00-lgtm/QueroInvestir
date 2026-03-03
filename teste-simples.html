@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Simples - Podcasts</title>
+</head>
+<body>
+    <h1>Teste de Podcasts</h1>
+    <div id="resultado"></div>
+
+    <script src="data.js"></script>
+    <script>
+        const resultado = document.getElementById('resultado');
+        
+        if (typeof podcasts === 'undefined') {
+            resultado.innerHTML = '<p style="color: red;">ERRO: podcasts não definido!</p>';
+        } else {
+            resultado.innerHTML = `
+                <p style="color: green;">✅ Podcasts definido: ${podcasts.length} itens</p>
+                <h2>Lista:</h2>
+                <ol>
+                    ${podcasts.map(p => `<li><strong>${p.nome}</strong> - <a href="${p.link}" target="_blank">${p.link}</a></li>`).join('')}
+                </ol>
+            `;
+        }
+    </script>
+</body>
+</html>

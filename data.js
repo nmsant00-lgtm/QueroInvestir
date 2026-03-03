@@ -398,8 +398,8 @@ const indicadoresPorTipo = {
 };
 
 
-// Anúncios e Mensagens
-const anuncios = [
+// Corretoras
+const corretoras = [
     {
         tipo: "importante",
         titulo: "Bem-vindo ao Quero Investir e Agora?",
@@ -420,8 +420,143 @@ const anuncios = [
     }
 ];
 
-// Corretoras
-const corretoras = [
+// Fundo de Emergência - Melhores Opções (Atualizado 2026)
+const fundoEmergencia = [
+    {
+        nome: "Revolut",
+        tipo: "Fintech",
+        avaliacao: 4.5,
+        pontoPositivo: "Juros até 2.25% (Ultra), acesso instantâneo, app premiada, contas multi-moeda",
+        pontoNegativo: "Proteção FGD limitada (banco lituano), não é banco português tradicional",
+        link: "https://www.revolut.com/pt-PT/",
+        juros: "1.5% a 2.25% (conforme plano)",
+        liquidez: "Imediata"
+    },
+    {
+        nome: "ActivoBank",
+        tipo: "Banco Digital",
+        avaliacao: 4.7,
+        pontoPositivo: "Sem comissões de manutenção, proteção FGD até €100k, app premiada, 100% digital",
+        pontoNegativo: "Sem balcões físicos, juros baixos em conta à ordem",
+        link: "https://www.activobank.pt/",
+        juros: "Variável (baixo)",
+        liquidez: "Imediata"
+    },
+    {
+        nome: "Certificados de Aforro Série F (IGCP)",
+        tipo: "Estado Português",
+        avaliacao: 4.9,
+        pontoPositivo: "Garantia total do Estado, taxa 2.031% (fev 2026), sem risco, proteção ilimitada",
+        pontoNegativo: "Liquidez só após 3 meses, limite €250k por pessoa",
+        link: "https://www.igcp.pt/",
+        juros: "2.031% (indexado Euribor)",
+        liquidez: "Após 3 meses"
+    },
+    {
+        nome: "Moey!",
+        tipo: "Fintech",
+        avaliacao: 4.4,
+        pontoPositivo: "100% digital, sem comissões, proteção FGD (Crédito Agrícola), interface simples",
+        pontoNegativo: "Funcionalidades limitadas, juros muito baixos",
+        link: "https://www.moey.pt/",
+        juros: "Muito baixo (~0%)",
+        liquidez: "Imediata"
+    },
+    {
+        nome: "Trade Republic",
+        tipo: "Corretora/Banco",
+        avaliacao: 4.6,
+        pontoPositivo: "Juros competitivos na conta, proteção até €100k, acesso a investimentos",
+        pontoNegativo: "Focado em investimentos, liquidez 1-2 dias, não é banco tradicional",
+        link: "https://traderepublic.com/pt-pt",
+        juros: "Competitivo (variável)",
+        liquidez: "1-2 dias úteis"
+    },
+    {
+        nome: "Millennium BCP",
+        tipo: "Banco Tradicional",
+        avaliacao: 4.3,
+        pontoPositivo: "Maior banco privado português, rede extensa, proteção FGD, serviços completos",
+        pontoNegativo: "Comissões mensais €5-7, juros baixos em conta à ordem",
+        link: "https://www.millenniumbcp.pt/",
+        juros: "Baixo (conta) / Variável (depósitos)",
+        liquidez: "Imediata"
+    },
+    {
+        nome: "Certificados do Tesouro Poupança Mais (IGCP)",
+        tipo: "Estado Português",
+        avaliacao: 4.8,
+        pontoPositivo: "Garantia do Estado, juros crescentes até 10 anos, resgate antecipado possível",
+        pontoNegativo: "Penalização se resgatar antes de 1 ano, limite €1M",
+        link: "https://www.igcp.pt/",
+        juros: "Crescente (até 10 anos)",
+        liquidez: "Após 1 ano (com penalização)"
+    },
+    {
+        nome: "Santander Totta",
+        tipo: "Banco Tradicional",
+        avaliacao: 4.2,
+        pontoPositivo: "Rede internacional, suporte em inglês, proteção FGD, ideal para expats",
+        pontoNegativo: "Comissões elevadas, juros baixos, menos competitivo que digitais",
+        link: "https://www.santander.pt/",
+        juros: "Baixo (conta) / Variável (depósitos)",
+        liquidez: "Imediata"
+    },
+    {
+        nome: "Novobanco",
+        tipo: "Banco Tradicional",
+        avaliacao: 4.1,
+        pontoPositivo: "Taxas competitivas em depósitos a prazo, proteção FGD, rede de balcões",
+        pontoNegativo: "Requisitos mais rigorosos, comissões mensais, menos digital",
+        link: "https://www.novobanco.pt/",
+        juros: "Competitivo (depósitos a prazo)",
+        liquidez: "Variável (conforme produto)"
+    },
+    {
+        nome: "Caixa Geral de Depósitos (CGD)",
+        tipo: "Banco Estatal",
+        avaliacao: 4.0,
+        pontoPositivo: "Maior banco português, rede mais extensa, proteção FGD, presença internacional",
+        pontoNegativo: "Comissões elevadas (€5-8/mês), juros baixos, menos inovador",
+        link: "https://www.cgd.pt/",
+        juros: "Muito baixo (conta à ordem)",
+        liquidez: "Imediata"
+    }
+];
+
+// Podcasts de Finanças e Investimentos
+const podcasts = [
+    {
+        nome: "MoneyFlix",
+        autor: "Vários",
+        descricao: "Discussões sobre finanças pessoais, investimentos e economia. Abordagem descontraída e informativa com convidados especialistas.",
+        link: "https://open.spotify.com/show/5ddvskQXgUHHLb0GsC2Uef?si=YkE_xfnUTY6xSmgBw31Xnw",
+        plataforma: "Spotify",
+        frequencia: "Semanal",
+        duracao: "45-90 min"
+    },
+    {
+        nome: "PouparInvestirLucrar",
+        autor: "Vários",
+        descricao: "Podcast português sobre poupança, investimentos e literacia financeira. Conteúdo prático e acessível para todos os níveis.",
+        link: "https://open.spotify.com/show/0GDIEIQ9i7nG0XkNKIf7dV?si=V2IZx8R2T8uCc2fgCVCQyQ",
+        plataforma: "Spotify",
+        frequencia: "Semanal",
+        duracao: "30-60 min"
+    },
+    {
+        nome: "Fire Talks Portugal",
+        autor: "Comunidade FIRE PT",
+        descricao: "Movimento FIRE (Financial Independence, Retire Early) em Portugal. Estratégias para independência financeira e reforma antecipada.",
+        link: "https://open.spotify.com/show/7p19Xg48SmFDRJGPHWU3dy?si=lzz2U49kS5CIa6cvuyhsIw",
+        plataforma: "Spotify",
+        frequencia: "Quinzenal",
+        duracao: "60-90 min"
+    }
+];
+
+// Anúncios e Mensagens
+const anuncios = [
     {
         nome: "DEGIRO",
         avaliacao: 4.5,

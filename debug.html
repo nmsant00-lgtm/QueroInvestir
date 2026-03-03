@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Verificação de Dados</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .success { color: #4ec9b0; }
+        .error { color: #f48771; }
+        .warning { color: #dcdcaa; }
+        .info { color: #9cdcfe; }
+        pre {
+            background: #252526;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        h2 {
+            color: #4ec9b0;
+            border-bottom: 2px solid #4ec9b0;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug - Verificação de Dados v4.0</h1>
+    
+    <div id="output"></div>
+
+    <script src="data.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        let html = '';
+
+        // Verificar se fundoEmergencia existe
+        html += '<h2>1. Verificação do Array fundoEmergencia</h2>';
+        if (typeof fundoEmergencia === 'undefined') {
+            html += '<p class="error">❌ ERRO: fundoEmergencia não está definido!</p>';
+        } else {
+            html += '<p class="success">✅ fundoEmergencia está definido</p>';
+            html += `<p class="info">📊 Total de itens: ${fundoEmergencia.length}</p>`;
+            
+            html += '<h3>TODOS OS DADOS COMPLETOS:</h3>';
+            html += '<pre>' + JSON.stringify(fundoEmergencia, null, 2) + '</pre>';
+        }
+
+        // Verificar se podcasts existe
+        html += '<h2>2. Verificação do Array podcasts</h2>';
+        if (typeof podcasts === 'undefined') {
+            html += '<p class="error">❌ ERRO: podcasts não está definido!</p>';
+        } else {
+            html += '<p class="success">✅ podcasts está definido</p>';
+            html += `<p class="info">📊 Total de itens: ${podcasts.length}</p>`;
+            
+            html += '<h3>TODOS OS DADOS COMPLETOS:</h3>';
+            html += '<pre>' + JSON.stringify(podcasts, null, 2) + '</pre>';
+        }
+
+        // Verificar outros arrays importantes
+        html += '<h2>3. Verificação de Outros Arrays</h2>';
+        
+        const arrays = [
+            { name: 'tiposAtivos', obj: typeof tiposAtivos !== 'undefined' ? tiposAtivos : null },
+            { name: 'corretoras', obj: typeof corretoras !== 'undefined' ? corretoras : null },
+            { name: 'glossario', obj: typeof glossario !== 'undefined' ? glossario : null }
+        ];
+        
+        arrays.forEach(arr => {
+            if (arr.obj === null) {
+                html += `<p class="error">❌ ${arr.name} não está definido</p>`;
+            } else {
+                html += `<p class="success">✅ ${arr.name} está definido (${arr.obj.length} itens)</p>`;
+            }
+        });
+
+        // Verificar se há erros de sintaxe
+        html += '<h2>4. Teste de Renderização</h2>';
+        html += '<p class="info">Tentando renderizar os dados...</p>';
+        
+        try {
+            // Simular renderização
+            const testDiv = document.createElement('div');
+            testDiv.innerHTML = fundoEmergencia.map((opcao, index) => `
+                <div>${index + 1}. ${opcao.nome}</div>
+            `).join('');
+            html += '<p class="success">✅ Renderização de fundoEmergencia funcionou!</p>';
+        } catch (e) {
+            html += `<p class="error">❌ Erro ao renderizar fundoEmergencia: ${e.message}</p>`;
+        }
+
+        try {
+            const testDiv = document.createElement('div');
+            testDiv.innerHTML = podcasts.map((podcast, index) => `
+                <div>${index + 1}. ${podcast.nome}</div>
+            `).join('');
+            html += '<p class="success">✅ Renderização de podcasts funcionou!</p>';
+        } catch (e) {
+            html += `<p class="error">❌ Erro ao renderizar podcasts: ${e.message}</p>`;
+        }
+
+        // Verificar se MoneyFlix é o primeiro
+        html += '<h2>5. Verificação de Ordem</h2>';
+        if (podcasts && podcasts.length > 0) {
+            if (podcasts[0].nome === 'MoneyFlix') {
+                html += '<p class="success">✅ MoneyFlix está em PRIMEIRO lugar (correto!)</p>';
+            } else {
+                html += `<p class="error">❌ Primeiro podcast é "${podcasts[0].nome}" (deveria ser MoneyFlix)</p>`;
+            }
+        }
+
+        // Verificar Certificados de Aforro
+        html += '<h2>6. Verificação de Dados Específicos</h2>';
+        if (fundoEmergencia && fundoEmergencia.length > 0) {
+            const certAforro = fundoEmergencia.find(item => item.nome.includes('Certificados de Aforro'));
+            if (certAforro) {
+                html += '<p class="success">✅ Certificados de Aforro encontrado</p>';
+                html += `<p class="info">Taxa: ${certAforro.juros}</p>`;
+                if (certAforro.juros.includes('2.031%')) {
+                    html += '<p class="success">✅ Taxa correta: 2.031%</p>';
+                } else {
+                    html += '<p class="warning">⚠️ Taxa não contém 2.031%</p>';
+                }
+            } else {
+                html += '<p class="error">❌ Certificados de Aforro não encontrado</p>';
+            }
+        }
+
+        output.innerHTML = html;
+    </script>
+</body>
+</html>

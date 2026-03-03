@@ -17,9 +17,10 @@
                 <li><a href="#indicadores" class="nav-link">Indicadores</a></li>
                 <li><a href="#avaliar-ativos" class="nav-link">Avaliar Ativos</a></li>
                 <li><a href="#simulacoes" class="nav-link">Simulações</a></li>
+                <li><a href="#fundo-emergencia" class="nav-link">Fundo Emergência</a></li>
                 <li><a href="#glossario" class="nav-link">Glossário</a></li>
                 <li><a href="#corretoras" class="nav-link">Corretoras</a></li>
-                <li><a href="#anuncios" class="nav-link">Anúncios</a></li>
+                <li><a href="#podcasts" class="nav-link">Podcasts</a></li>
             </ul>
         </div>
     </nav>
@@ -57,6 +58,11 @@
                             <h3>Simulações</h3>
                             <p>Calcule juros compostos, rendimentos e regra dos 4%</p>
                         </div>
+                        <div class="card" data-nav="fundo-emergencia">
+                            <span class="icon">🆘</span>
+                            <h3>Fundo de Emergência</h3>
+                            <p>Estratégias e melhores opções para seu fundo de emergência</p>
+                        </div>
                         <div class="card" data-nav="glossario">
                             <span class="icon">📚</span>
                             <h3>Glossário</h3>
@@ -67,10 +73,10 @@
                             <h3>Corretoras</h3>
                             <p>Compare as principais plataformas de investimento</p>
                         </div>
-                        <div class="card" data-nav="anuncios">
-                            <span class="icon">📢</span>
-                            <h3>Anúncios</h3>
-                            <p>Novidades e atualizações da plataforma</p>
+                        <div class="card" data-nav="podcasts">
+                            <span class="icon">🎙️</span>
+                            <h3>Podcasts</h3>
+                            <p>Os melhores podcasts sobre finanças e investimentos</p>
                         </div>
                     </div>
                 </div>
@@ -82,6 +88,10 @@
             <div class="container">
                 <h2>Tipos de Ativos</h2>
                 <div id="ativos-container"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
@@ -91,6 +101,10 @@
                 <h2>Descubra seu Perfil de Investidor</h2>
                 <div id="questionario-container"></div>
                 <div id="resultado-perfil" class="hidden"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
@@ -99,6 +113,10 @@
             <div class="container">
                 <h2>Top 5 Indicadores por Tipo de Ativo</h2>
                 <div id="indicadores-container"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
@@ -148,6 +166,10 @@
                     <button id="btn-avaliar" class="btn-primary" onclick="avaliarAtivo()">Avaliar Ativo</button>
                 </div>
                 <div id="resultado-simulacao" class="hidden"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
@@ -305,6 +327,81 @@
                     
                     <div id="resultado-regra4" class="hidden"></div>
                 </div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
+            </div>
+        </section>
+
+        <!-- Fundo de Emergência Section -->
+        <section id="fundo-emergencia" class="section">
+            <div class="container">
+                <h2>🆘 Fundo de Emergência</h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem;">
+                    Um fundo de emergência é essencial para sua segurança financeira. Saiba como criar e onde manter o seu.
+                </p>
+                
+                <!-- Estratégias e Boas Práticas -->
+                <div class="sim-explicacao" style="background: #eff6ff; border-left-color: var(--primary);">
+                    <h3 style="color: var(--primary);">💡 O Que é um Fundo de Emergência?</h3>
+                    <p>É uma reserva financeira para cobrir despesas inesperadas como:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Perda de emprego ou redução de rendimento</li>
+                        <li>Emergências médicas não cobertas</li>
+                        <li>Reparações urgentes (carro, casa, etc.)</li>
+                        <li>Despesas imprevistas importantes</li>
+                    </ul>
+                </div>
+                
+                <div class="sim-explicacao" style="background: #f0fdf4; border-left-color: var(--success);">
+                    <h3 style="color: var(--success);">✅ Boas Práticas</h3>
+                    <p><strong>1. Quanto Poupar:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>Mínimo:</strong> 3 meses de despesas essenciais</li>
+                        <li><strong>Recomendado:</strong> 6 meses de despesas</li>
+                        <li><strong>Ideal:</strong> 12 meses para maior segurança</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>2. Características Importantes:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>Liquidez:</strong> Acesso rápido ao dinheiro (máximo 2-3 dias)</li>
+                        <li><strong>Segurança:</strong> Sem risco de perda de capital</li>
+                        <li><strong>Separação:</strong> Conta separada das despesas do dia-a-dia</li>
+                        <li><strong>Rendimento:</strong> Algum juro, mas não é o foco principal</li>
+                    </ul>
+                    
+                    <p style="margin-top: 1rem;"><strong>3. Como Construir:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Defina uma meta mensal (ex: 10% do salário)</li>
+                        <li>Automatize as transferências</li>
+                        <li>Comece pequeno, mas seja consistente</li>
+                        <li>Use bónus e extras para acelerar</li>
+                    </ul>
+                </div>
+                
+                <div class="sim-explicacao" style="background: #fef2f2; border-left-color: var(--danger);">
+                    <h3 style="color: var(--danger);">⚠️ Quando NÃO Usar</h3>
+                    <p>O fundo de emergência é APENAS para emergências reais:</p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>❌ Férias ou viagens</li>
+                        <li>❌ Compras não essenciais</li>
+                        <li>❌ Oportunidades de investimento</li>
+                        <li>❌ Presentes ou eventos sociais</li>
+                        <li>✅ Apenas para situações imprevistas e urgentes</li>
+                    </ul>
+                </div>
+                
+                <h3 style="margin-top: 2rem;">🏦 Top 10 Melhores Opções para Fundo de Emergência</h3>
+                <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+                    Comparação das melhores instituições para manter seu fundo de emergência em Portugal.
+                </p>
+                
+                <div id="fundo-emergencia-container"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
@@ -321,6 +418,10 @@
                 </div>
                 
                 <div id="glossario-container"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
@@ -332,14 +433,26 @@
                     Comparação das principais plataformas de investimento disponíveis. Avalie custos, funcionalidades e escolha a melhor para o seu perfil.
                 </p>
                 <div id="corretoras-container"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
 
-        <!-- Anúncios Section -->
-        <section id="anuncios" class="section">
+        <!-- Podcasts Section -->
+        <section id="podcasts" class="section">
             <div class="container">
-                <h2>📢 Anúncios e Atualizações</h2>
-                <div id="anuncios-container"></div>
+                <h2>🎙️ Podcasts de Finanças e Investimentos</h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem;">
+                    Os melhores podcasts portugueses sobre finanças pessoais, investimentos e independência financeira.
+                </p>
+                
+                <div id="podcasts-container"></div>
+                
+                <button class="btn-secondary" onclick="navegarPara('home')" style="margin-top: 2rem;">
+                    ← Voltar ao Início
+                </button>
             </div>
         </section>
     </main>
@@ -350,7 +463,19 @@
         </div>
     </footer>
 
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+    <script src="data.js?v=5.0"></script>
+    <script src="app.js?v=5.0"></script>
+    <script>
+        // Garantir que as funções executam após tudo estar carregado
+        window.addEventListener('load', function() {
+            console.log('🔄 Forçando renderização após load completo...');
+            if (typeof renderizarFundoEmergencia === 'function') {
+                renderizarFundoEmergencia();
+            }
+            if (typeof renderizarPodcasts === 'function') {
+                renderizarPodcasts();
+            }
+        });
+    </script>
 </body>
 </html>
